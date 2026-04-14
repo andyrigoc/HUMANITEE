@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order - HUMANITEE</title>
+<link rel="stylesheet" href="order.css">
+</head>
+<body>
+
+<section class="order_wrapper">
+  <div class="order_card">
+
+    <header class="order_header">
+      <a href="index.html" class="order_logo">HUMANITEE</a>
+      <div class="steps-indicator">
+        <div class="step-dot active" data-step="0">1</div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="1">2</div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="2">3</div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="3">4</div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="4">5</div>
+      </div>
+    </header>
+
+    <div class="viewport">
+      <div class="track" id="track">
+
+        <!-- STEP 1: Select Colour -->
+        <section class="page" id="stepColour">
+          <h3>Select Your Colour</h3>
+          <p class="page-desc">Choose the colour of your unique tee.</p>
+
+          <div class="colour-row">
+            <div class="colour-box" data-color="Charcoal">
+              <img src="https://i.postimg.cc/Y4JNXxv1/GD067-Charcoal-FT.jpg" alt="Charcoal">
+              <span>Charcoal</span>
+            </div>
+            <div class="colour-box" data-color="Cobalt">
+              <img src="https://i.postimg.cc/4Krv81Yv/GD067-Cobalt-FT.jpg" alt="Cobalt">
+              <span>Cobalt</span>
+            </div>
+            <div class="colour-box" data-color="Cocoa">
+              <img src="https://i.postimg.cc/06LGtCzn/GD067-Cocoa-FT.jpg" alt="Cocoa">
+              <span>Cocoa</span>
+            </div>
+            <div class="colour-box" data-color="Daisy">
+              <img src="https://i.postimg.cc/hJH8C0X2/GD067-Daisy-FT.jpg" alt="Daisy">
+              <span>Daisy</span>
+            </div>
+            <div class="colour-box" data-color="Dark Heather">
+              <img src="https://i.postimg.cc/5YLBDFzw/GD067-Dark-Heather-FT.jpg" alt="Dark Heather">
+              <span>Dark Heather</span>
+            </div>
+            <div class="colour-box" data-color="Dusty Rose">
+              <img src="https://i.postimg.cc/xJMvBbmG/GD067-Dusty-Rose-FT.jpg" alt="Dusty Rose">
+              <span>Dusty Rose</span>
+            </div>
+          </div>
+
+          <div class="nav">
+            <span></span>
+            <button class="btn next" id="btnColourNext">Continue</button>
+          </div>
+        </section>
+
+        <!-- STEP 2: Select Size -->
+        <section class="page" id="stepSize">
+          <h3>Select Your Size</h3>
+          <p class="page-desc">Choose the perfect fit for your tee.</p>
+
+          <div class="size-grid">
+            <div class="size-box" data-size="XS">XS</div>
+            <div class="size-box" data-size="S">S</div>
+            <div class="size-box" data-size="M">M</div>
+            <div class="size-box" data-size="L">L</div>
+            <div class="size-box" data-size="XL">XL</div>
+            <div class="size-box" data-size="2XL">2XL</div>
+            <div class="size-box" data-size="3XL">3XL</div>
+          </div>
+
+          <div class="nav">
+            <button class="btn back">Back</button>
+            <button class="btn next" id="btnSizeNext">Continue</button>
+          </div>
+        </section>
+
+        <!-- STEP 3: Your Details -->
+        <section class="page" id="stepDetails">
+          <h3>Your Details</h3>
+          <p class="page-desc">We use your identity to assign your unique Human Number.</p>
+
+          <!-- Returning user banner (hidden by default) -->
+          <div class="returning-banner" id="returningBanner" style="display:none;">
+            <h4 id="returningGreeting"></h4>
+            <p>Your Human Number:</p>
+            <div class="big-number" id="returningNumber"></div>
+            <p class="returning-note">You already have a number! Complete your new order below.</p>
+          </div>
+
+          <div class="form-fields">
+            <input class="input" id="firstName" placeholder="First Name" autocomplete="given-name">
+            <input class="input" id="lastName" placeholder="Last Name" autocomplete="family-name">
+            <input class="input" id="dob" type="date" placeholder="Date of Birth">
+            <input class="input" id="email" type="email" placeholder="Email" autocomplete="email">
+          </div>
+
+          <div class="nav">
+            <button class="btn back">Back</button>
+            <button class="btn next" id="btnDetailsNext">Continue to Payment</button>
+          </div>
+        </section>
+
+        <!-- STEP 4: Payment (simulated) -->
+        <section class="page" id="stepPayment">
+          <h3>Payment</h3>
+          <p class="page-desc">Review your order and complete payment.</p>
+
+          <div class="order-review" id="orderReview"></div>
+
+          <div class="payment-box">
+            <p class="payment-total">Total: <strong>£34.00</strong></p>
+            <button class="btn pay" id="btnPay">Pay £34.00</button>
+            <p class="payment-note">Payment is simulated for testing.</p>
+          </div>
+
+          <div class="nav">
+            <button class="btn back">Back</button>
+            <span></span>
+          </div>
+        </section>
+
+        <!-- STEP 5: Confirmation -->
+        <section class="page" id="stepConfirm">
+          <div class="confirmation">
+            <div class="confirm-icon">✓</div>
+            <h3>Order Confirmed!</h3>
+            <p class="confirm-subtitle">Your unique Human Number has been assigned.</p>
+
+            <div class="big-number" id="confirmNumber"></div>
+
+            <div class="confirm-details" id="confirmDetails"></div>
+
+            <p class="confirm-email-note" id="emailNote"></p>
+
+            <a href="index.html" class="btn home-btn">Back to Home</a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script src="order.js"></script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUMANITEE — Essential Minimal Apparel</title>
+  <link rel="stylesheet" href="style_new.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <a href="#home" class="logo">HUMANITEE</a>
+      
+      <nav class="nav" id="nav">
+        <a href="#home">Home</a>
+        <a href="#shop">Shop</a>
+        <a href="#drops">Drops</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="container">
+        <span class="eyebrow">Minimal Apparel</span>
+        <h1 class="hero-title">HUMANITEE</h1>
+        <p class="hero-desc">Essential clothing built around form, silence and presence.</p>
+        
+        <div class="hero-actions">
+          <a href="#shop" class="btn btn-primary">Shop the Drop</a>
+          <a href="#about" class="btn btn-secondary">Learn More</a>
+        </div>
+
+        <div class="hero-meta">
+          <span>Premium cotton</span>
+          <span>Minimal silhouettes</span>
+          <span>Quiet identity</span>
+        </div>
+
+        <div class="hero-image">
+          <img src="ORIGIN.png" alt="HUMANITEE T-Shirt">
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Categories -->
+    <section class="categories-section" id="shop">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Categories</span>
+          <h2 class="section-title">Featured Essentials</h2>
+          <p class="section-desc">Premium tees designed for everyday life. Choose your weight and style.</p>
+        </div>
+
+        <div class="categories-grid">
+          <article class="category-card">
+            <div class="category-content">
+              <h3>Essential Tees</h3>
+              <p>Classic everyday silhouettes with premium minimal finish.</p>
+              <span class="link">Explore →</span>
+            </div>
+          </article>
+
+          <article class="category-card">
+            <div class="category-content">
+              <h3>Heavy Tees</h3>
+              <p>Structured weight, sharper drape, stronger presence.</p>
+              <span class="link">Explore →</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Cards -->
+    <section class="products-section" id="drops">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Latest Drop</span>
+          <h2 class="section-title">New Arrivals</h2>
+        </div>
+
+        <div class="products-grid">
+          <article class="product-card">
+            <div class="product-image">
+              <img src="ORIGIN.png" alt="Essential Tee Black">
+              <span class="badge">New</span>
+            </div>
+            <div class="product-info">
+              <h3>Essential Tee</h3>
+              <p class="price">€45.00</p>
+              <p class="product-desc">Premium cotton in black</p>
+              <button class="btn btn-small">Add to Cart</button>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="ORIGIN.png" alt="Heavy Tee White">
+            </div>
+            <div class="product-info">
+              <h3>Heavy Tee</h3>
+              <p class="price">€55.00</p>
+              <p class="product-desc">Structured fit in white</p>
+              <button class="btn btn-small">Add to Cart</button>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="ORIGIN.png" alt="Essential Tee Grey">
+            </div>
+            <div class="product-info">
+              <h3>Essential Tee</h3>
+              <p class="price">€45.00</p>
+              <p class="product-desc">Premium cotton in grey</p>
+              <button class="btn btn-small">Add to Cart</button>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="ORIGIN.png" alt="Heavy Tee Black">
+              <span class="badge">Limited</span>
+            </div>
+            <div class="product-info">
+              <h3>Heavy Tee</h3>
+              <p class="price">€55.00</p>
+              <p class="product-desc">Structured fit in black</p>
+              <button class="btn btn-small">Add to Cart</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Brand Statement -->
+    <section class="statement-section" id="about">
+      <div class="container">
+        <div class="statement">
+          <h2>The Human Uniform</h2>
+          <p>HUMANITEE is built around reduction. Fewer distractions, cleaner silhouettes, stronger identity. Essential pieces designed to last.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section">
+      <div class="container">
+        <h2>Join the Next Drop</h2>
+        <p>Be the first to know about new releases and exclusive offers.</p>
+        
+        <form class="newsletter-form" id="newsletterForm">
+          <input 
+            type="email" 
+            placeholder="Enter your email" 
+            required
+            aria-label="Email address"
+          >
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+        <p class="form-note" id="newsletterMsg"></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>HUMANITEE</h4>
+          <p>Minimal apparel. Clean presence. Quiet identity.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <a href="#shop">T-Shirts</a>
+          <a href="#drops">Drops</a>
+          <a href="#shop">Collections</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Info</h4>
+          <a href="#about">About</a>
+          <a href="#">Shipping</a>
+          <a href="#">Returns</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:info@humanitee.com">Email</a>
+          <a href="#">Instagram</a>
+          <a href="#">Support</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 HUMANITEE. All rights reserved.</p>
+        <p><a href="#">Privacy</a> · <a href="#">Terms</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script_new.js"></script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUMANITEE — Essential Minimal Apparel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Sticky Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="#home" class="logo">HUMANITEE</a>
+        
+        <nav class="nav" id="mainNav">
+          <a href="#home">Home</a>
+          <a href="#shop">Shop</a>
+          <a href="#drops">Drops</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="icon-btn" aria-label="Search">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="2"/>
+              <path d="M14 14L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button class="icon-btn" aria-label="Cart">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M3 3h2l.4 2M5.4 5h11.2l-1.6 8H7L5.4 5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <circle cx="8" cy="17" r="1" fill="currentColor"/>
+              <circle cx="15" cy="17" r="1" fill="currentColor"/>
+            </svg>
+          </button>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Modal Mobile -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-mobile" id="modalMobile">
+      <div class="modal-top-bar">
+        <div class="modal-brand">
+          <div class="brand-name">HUMANITEE</div>
+          <div class="brand-tagline">Your Marketplace for Smart T-Shirts</div>
+        </div>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+
+      <div class="modal-menu" id="modalMenu">
+        <a href="#shop" class="modal-menu-item">SHOP</a>
+        <a href="#drop" class="modal-menu-item">DROPS</a>
+        <a href="#about" class="modal-menu-item">ABOUT</a>
+        <a href="#contact" class="modal-menu-item">CONTACT</a>
+      </div>
+
+      <div class="modal-product-showcase">
+        <img src="ORIGIN.png" alt="HUMANITEE T-Shirt" class="showcase-image" />
+      </div>
+
+      <button class="btn-get-started" id="btnGetStarted">Get Started</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-text reveal">
+          <span class="eyebrow">Minimal Apparel</span>
+          <h1 class="hero-title">HUMANITEE</h1>
+          <p class="hero-copy">
+            Essential clothing built around form, silence and presence.
+            A clean landing page for a premium minimal brand.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="openModal">Shop the Drop</button>
+            <a href="#about" class="btn btn-secondary">Discover the Brand</a>
+          </div>
+
+          <div class="hero-meta">
+            <span>Premium cotton</span>
+            <span>Minimal silhouettes</span>
+            <span>Quiet identity</span>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="visual-glow"></div>
+          <div class="tee-wrap">
+            <img src="ORIGIN.png" alt="HUMANITEE T-Shirt" class="tee-image">
+            <div class="shadow"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shop">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Categories</div>
+            <h2 class="section-title">Featured Essentials</h2>
+          </div>
+          <p class="section-text">
+            Start with the core structure: premium tees, lightweight, mediumweight, and heavyweight fits — choose the one that suits you best.
+          </p>
+        </div>
+
+        <div class="categories">
+          <a href="#" class="category-card reveal">
+            <h3>T-Shirts</h3>
+            <p>Clean everyday silhouettes with a premium minimal finish.</p>
+            <span class="link-arrow">Explore →</span>
+            <div class="category-thumb"></div>
+          </a>
+
+          <a href="#" class="category-card reveal">
+            <h3>Heavy Tees</h3>
+            <p>Structured weight, sharper drape, stronger presence.</p>
+            <span class="link-arrow">Explore →</span>
+            <div class="category-thumb"></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="drop">
+      <div class="container">
+        <div class="unique-piece-box reveal">
+          <div class="subwindow-viewport">
+            <div class="subwindow-track" id="subTrack">
+
+              <!-- Step 0: Product + START -->
+              <div class="sub-step step-intro">
+                <h2 class="unique-title">CLAIM YOUR UNIQUE PIECE</h2>
+                <div class="intro-img-wrap">
+                  <img src="ORIGIN.png" alt="HUMANITEE" class="intro-tee">
+                </div>
+                <button class="start-btn" id="btnStart">START</button>
+              </div>
+
+              <!-- Step 1: Weight -->
+              <div class="sub-step" style="position:relative;">
+                <button class="back-arrow" data-back><span class="arrow-icon"></span></button>
+                <h3 class="sub-title">SELECT YOUR PERFECT FIT & WEIGHT</h3>
+                <div class="modal-options">
+                  <div class="modal-option" data-weight="lightweight">
+                    <img src="ORIGIN.png" alt="Lightweight">
+                    <span>LIGHTWEIGHT</span>
+                  </div>
+                  <div class="modal-option" data-weight="premium">
+                    <img src="ORIGIN.png" alt="Premium">
+                    <span>PREMIUM</span>
+                  </div>
+                  <div class="modal-option" data-weight="heavy">
+                    <img src="ORIGIN.png" alt="Heavy">
+                    <span>HEAVY</span>
+                  </div>
+                </div>
+                <button class="weight-continue" id="btnWeightNext">CONTINUE</button>
+              </div>
+
+              <!-- Step 2: Size -->
+              <div class="sub-step" style="position:relative;">
+                <button class="back-arrow" data-back><span class="arrow-icon"></span></button>
+                <h3 class="sub-title">SELECT YOUR SIZE</h3>
+                <div class="size-grid">
+                  <div class="size-box" data-size="XS">XS</div>
+                  <div class="size-box" data-size="S">S</div>
+                  <div class="size-box" data-size="M">M</div>
+                  <div class="size-box" data-size="L">L</div>
+                  <div class="size-box" data-size="XL">XL</div>
+                  <div class="size-box" data-size="2XL">2XL</div>
+                  <div class="size-box" data-size="3XL">3XL</div>
+                </div>
+                <button class="start-btn" id="btnSizeNext">CONTINUE</button>
+              </div>
+
+              <!-- Step 3: Details -->
+              <div class="sub-step" style="position:relative;">
+                <button class="back-arrow" data-back><span class="arrow-icon"></span></button>
+                <h3 class="sub-title">YOUR DETAILS</h3>
+                <p class="sub-desc">We use your identity to assign your unique Human Number.</p>
+                <div class="returning-banner" id="returningBanner" style="display:none;">
+                  <h4 id="returningGreeting"></h4>
+                  <p>Your Human Number: <strong id="returningNumber"></strong></p>
+                </div>
+                <div class="sub-form">
+                  <input class="sub-input" id="firstName" placeholder="First Name" autocomplete="given-name">
+                  <input class="sub-input" id="lastName" placeholder="Last Name" autocomplete="family-name">
+                  <input class="sub-input" id="dob" type="date" placeholder="Date of Birth">
+                  <input class="sub-input" id="email" type="email" placeholder="Email" autocomplete="email">
+                </div>
+                <button class="start-btn" id="btnDetailsNext">CONTINUE TO PAYMENT</button>
+              </div>
+
+              <!-- Step 4: Payment -->
+              <div class="sub-step">
+                <button class="back-arrow" data-back><span class="arrow-icon"></span></button>
+                <h3 class="sub-title">PAYMENT</h3>
+                <div class="order-review" id="orderReview"></div>
+                <div class="payment-box">
+                  <p class="payment-total">Total: <strong>£15.00</strong></p>
+                  
+                  <h4 class="payment-method-title">Choose Your Payment Method</h4>
+                  <div class="payment-methods">
+                    <div class="payment-method" data-method="paypal">
+                      <img src="paypal.png" alt="PayPal" class="payment-icon">
+                      <span class="payment-name">PayPal</span>
+                    </div>
+                    <div class="payment-method" data-method="opayo">
+                      <img src="opayo.png" alt="Opayo" class="payment-icon">
+                      <span class="payment-name">Opayo</span>
+                    </div>
+                    <div class="payment-method" data-method="link">
+                      <img src="card.png" alt="Payment Link" class="payment-icon">
+                      <span class="payment-name">Payment Link</span>
+                    </div>
+                  </div>
+                  
+                  <button class="sub-btn sub-next" id="btnPay">Pay £15.00</button>
+                  <p class="payment-note">Payment is simulated for testing.</p>
+                </div>
+              </div>
+
+              <!-- Step 5: Confirmation -->
+              <div class="sub-step">
+                <div class="confirmation">
+                  <div class="confirm-icon">✓</div>
+                  <h3>Order Confirmed!</h3>
+                  <p class="sub-desc">Your unique Human Number:</p>
+                  <div class="big-number" id="confirmNumber"></div>
+                  <div class="confirm-details" id="confirmDetails"></div>
+                  <p class="confirm-email-note" id="emailNote"></p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="statement reveal">
+          <h2>The Human Uniform</h2>
+          <p>
+            HUMANITEE is built around reduction. Fewer distractions, cleaner silhouettes,
+            stronger identity. The landing page keeps the same principle: white space,
+            typography, one central object, and clear next steps.
+          </p>
+
+          <form class="newsletter" id="newsletterForm">
+            <input type="email" id="emailInput" placeholder="Enter your email for the next drop" required />
+            <button type="submit" class="btn btn-primary">Join Newsletter</button>
+          </form>
+          <p class="newsletter-note" id="newsletterMessage"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>HUMANITEE</h4>
+          <p>Minimal apparel. Clean presence. Quiet identity.</p>
+          <p style="margin-top:10px; font-size:0.88rem;">Unit 8 Red Lion Business Centre<br>KT6 7QD, Surbiton, Surrey</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <a href="#shop">T-Shirts</a>
+          <a href="#drop">Drops</a>
+          <a href="#shop">Accessories</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Info</h4>
+          <a href="#about">About</a>
+          <a href="#">Shipping</a>
+          <a href="#">Returns</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:info@humanittee.com">info@humanittee.com</a>
+          <a href="#">Instagram</a>
+          <a href="#">TikTok</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 HUMANITEE. All rights reserved.</span>
+        <span>Privacy Policy · Terms</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mini Reminder Pop-up -->
+  <div class="mini-popup" id="miniPopup">
+    <div class="mini-popup-content">
+      <p id="popupMessage"></p>
+      <button class="popup-ok" id="popupOk">OK</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

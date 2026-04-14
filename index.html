@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUMANITEE — Essential Minimal Apparel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <a href="#home" class="logo">HUMANITEE</a>
+      
+      <nav class="nav" id="nav">
+        <a href="#home">Home</a>
+        <a href="#shop">Shop</a>
+        <a href="#drops">Drops</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Modal/Subwindow Order Flow -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-mobile">
+      
+      <!-- Fixed Header -->
+      <div class="modal-header">
+        <button class="back-btn" id="backBtn">
+          <span class="arrow-icon"></span>
+        </button>
+        <div class="modal-header-brand" id="brandHome">
+          <span class="header-brand-name">HUMANITEE</span>
+        </div>
+      </div>
+
+      <div class="sub-track" id="subTrack">
+
+        <!-- Step 0: Intro -->
+          <div class="sub-step">
+            <div class="sub-intro">
+              <h2>HUMANITEE</h2>
+              <p class="sub-tagline">Your Marketplace for Smart T-Shirts</p>
+              <div class="intro-img-wrap">
+                <img src="ORIGIN.png" alt="HUMANITEE" class="intro-tee">
+              </div>
+              <button class="start-btn" id="btnStart">START</button>
+            </div>
+          </div>
+
+          <!-- Step 1: Weight -->
+          <div class="sub-step">
+            <h3 class="sub-title">SELECT YOUR PERFECT FIT & WEIGHT</h3>
+            <div class="weight-selector">
+              <button class="nav-arrow nav-arrow-left" id="weightPrev">
+                <span class="arrow-left-icon"></span>
+              </button>
+              <div class="modal-options-container">
+                <div class="modal-options" id="weightOptions">
+                  <div class="modal-option" data-weight="lightweight">
+                    <img src="ORIGIN.png" alt="Lightweight">
+                    <span>LIGHTWEIGHT</span>
+                  </div>
+                  <div class="modal-option" data-weight="premium">
+                    <img src="ORIGIN.png" alt="Premium">
+                    <span>PREMIUM</span>
+                  </div>
+                  <div class="modal-option" data-weight="heavy">
+                    <img src="ORIGIN.png" alt="Heavy">
+                    <span>HEAVY</span>
+                  </div>
+                </div>
+              </div>
+              <button class="nav-arrow nav-arrow-right" id="weightNext">
+                <span class="arrow-right-icon"></span>
+              </button>
+            </div>
+            <button class="weight-continue" id="btnWeightNext">CONTINUE</button>
+          </div>
+
+          <!-- Step 2: Size -->
+          <div class="sub-step">
+            <h3 class="sub-title">SELECT YOUR SIZE</h3>
+            <div class="size-grid">
+              <div class="size-box" data-size="XS">XS</div>
+              <div class="size-box" data-size="S">S</div>
+              <div class="size-box" data-size="M">M</div>
+              <div class="size-box" data-size="L">L</div>
+              <div class="size-box" data-size="XL">XL</div>
+              <div class="size-box" data-size="2XL">2XL</div>
+              <div class="size-box" data-size="3XL">3XL</div>
+              <div class="size-box" data-size="4XL">4XL</div>
+              <div class="size-box" data-size="5XL">5XL</div>
+              <div class="size-box" data-size="6XL">6XL</div>
+              <div class="size-box" data-size="7XL">7XL</div>
+              <div class="size-box" data-size="8XL">8XL</div>
+            </div>
+            <button class="start-btn" id="btnSizeNext">CONTINUE</button>
+          </div>
+
+          <!-- Step 3: Details -->
+          <div class="sub-step">
+            <h3 class="sub-title">YOUR DETAILS</h3>
+            <p class="sub-desc">We use your identity to assign your unique Human Number.</p>
+            <div class="returning-banner" id="returningBanner" style="display:none;">
+              <h4 id="returningGreeting"></h4>
+              <p>Your Human Number: <strong id="returningNumber"></strong></p>
+            </div>
+            <div class="sub-form">
+              <input class="sub-input" id="firstName" placeholder="First Name" autocomplete="given-name">
+              <input class="sub-input" id="lastName" placeholder="Last Name" autocomplete="family-name">
+              <input class="sub-input" id="dob" type="date" placeholder="Date of Birth">
+              <input class="sub-input" id="email" type="email" placeholder="Email" autocomplete="email">
+            </div>
+            <button class="start-btn" id="btnDetailsNext">CONTINUE TO PAYMENT</button>
+          </div>
+
+          <!-- Step 4: Payment -->
+          <div class="sub-step">
+            <h3 class="sub-title">PAYMENT</h3>
+            <div class="order-review" id="orderReview"></div>
+            <div class="payment-box">
+              <p class="payment-total">Total: <strong>£15.00</strong></p>
+              
+              <h4 class="payment-method-title">Choose Your Payment Method</h4>
+              <div class="payment-methods">
+                <div class="payment-method" data-method="paypal">
+                  <img src="paypal.png" alt="PayPal" class="payment-icon">
+                  <span class="payment-name">PayPal</span>
+                </div>
+                <div class="payment-method" data-method="opayo">
+                  <img src="opayo.png" alt="Opayo" class="payment-icon">
+                  <span class="payment-name">Opayo</span>
+                </div>
+                <div class="payment-method" data-method="link">
+                  <img src="card.png" alt="Payment Link" class="payment-icon">
+                  <span class="payment-name">Payment Link</span>
+                </div>
+              </div>
+              
+              <button class="sub-btn sub-next" id="btnPay">Pay £15.00</button>
+              <p class="payment-note">Payment is simulated for testing.</p>
+            </div>
+          </div>
+
+          <!-- Step 5: Confirmation -->
+          <div class="sub-step">
+            <div class="confirmation">
+              <div class="confirm-icon">✓</div>
+              <h3>Order Confirmed!</h3>
+              <p class="sub-desc">Your unique Human Number:</p>
+              <div class="big-number" id="confirmNumber"></div>
+              <div class="confirm-details" id="confirmDetails"></div>
+              <p class="confirm-email-note" id="emailNote"></p>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini Pop-up -->
+  <div class="mini-popup" id="miniPopup">
+    <div class="mini-popup-content">
+      <p id="popupMessage"></p>
+      <button class="popup-ok" id="popupOk">OK</button>
+    </div>
+  </div>
+
+  <main>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="container">
+        <span class="eyebrow">Minimal Apparel</span>
+        <h1 class="hero-title">HUMANITEE</h1>
+        
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="openModal">Shop the Drop</button>
+        </div>
+
+        <div class="hero-meta">
+          <span>Premium cotton</span>
+          <span>Minimal silhouettes</span>
+          <span>Quiet identity</span>
+        </div>
+
+        <div class="hero-image">
+          <img src="ORIGIN.png" alt="HUMANITEE T-Shirt">
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Categories -->
+    <section class="categories-section" id="shop">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Categories</span>
+          <h2 class="section-title">Featured Essentials</h2>
+          <p class="section-desc">Premium tees designed for everyday life. Choose your weight and style.</p>
+        </div>
+
+        <div class="categories-grid">
+          <article class="category-card">
+            <div class="category-content">
+              <h3>Essential Tees</h3>
+              <p>Classic everyday silhouettes with premium minimal finish.</p>
+              <span class="link">Explore →</span>
+            </div>
+          </article>
+
+          <article class="category-card">
+            <div class="category-content">
+              <h3>Heavy Tees</h3>
+              <p>Structured weight, sharper drape, stronger presence.</p>
+              <span class="link">Explore →</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Cards -->
+    <section class="products-section" id="drops">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Latest Drop</span>
+          <h2 class="section-title">New Arrivals</h2>
+        </div>
+
+        <div class="products-grid">
+          <article class="product-card">
+            <div class="product-image">
+              <img src="ORIGIN.png" alt="Essential Tee Black">
+              <span class="badge">New</span>
+            </div>
+            <div class="product-info">
+              <h3>Essential Tee</h3>
+              <p class="price">€45.00</p>
+              <p class="product-desc">Premium cotton in black</p>
+              <button class="btn btn-small">Add to Cart</button>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="ORIGIN.png" alt="Heavy Tee White">
+            </div>
+            <div class="product-info">
+              <h3>Heavy Tee</h3>
+              <p class="price">€55.00</p>
+              <p class="product-desc">Structured fit in white</p>
+              <button class="btn btn-small">Add to Cart</button>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="ORIGIN.png" alt="Essential Tee Grey">
+            </div>
+            <div class="product-info">
+              <h3>Essential Tee</h3>
+              <p class="price">€45.00</p>
+              <p class="product-desc">Premium cotton in grey</p>
+              <button class="btn btn-small">Add to Cart</button>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="ORIGIN.png" alt="Heavy Tee Black">
+              <span class="badge">Limited</span>
+            </div>
+            <div class="product-info">
+              <h3>Heavy Tee</h3>
+              <p class="price">€55.00</p>
+              <p class="product-desc">Structured fit in black</p>
+              <button class="btn btn-small">Add to Cart</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Brand Statement -->
+    <section class="statement-section" id="about">
+      <div class="container">
+        <div class="statement">
+          <h2>The Human Uniform</h2>
+          <p>HUMANITEE is built around reduction. Fewer distractions, cleaner silhouettes, stronger identity. Essential pieces designed to last.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section">
+      <div class="container">
+        <h2>Join the Next Drop</h2>
+        <p>Be the first to know about new releases and exclusive offers.</p>
+        
+        <form class="newsletter-form" id="newsletterForm">
+          <input 
+            type="email" 
+            placeholder="Enter your email" 
+            required
+            aria-label="Email address"
+          >
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+        <p class="form-note" id="newsletterMsg"></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>HUMANITEE</h4>
+          <p>Minimal apparel. Clean presence. Quiet identity.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <a href="#shop">T-Shirts</a>
+          <a href="#drops">Drops</a>
+          <a href="#shop">Collections</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Info</h4>
+          <a href="#about">About</a>
+          <a href="#">Shipping</a>
+          <a href="#">Returns</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:info@humanitee.com">Email</a>
+          <a href="#">Instagram</a>
+          <a href="#">Support</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 HUMANITEE. All rights reserved.</p>
+        <p><a href="#">Privacy</a> · <a href="#">Terms</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
