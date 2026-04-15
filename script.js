@@ -915,6 +915,4 @@
     }
   });
 
-  setTimeout(toggleDebugOverlay, 500);
-
 })();
