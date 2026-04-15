@@ -1,25 +1,37 @@
-# HUMANITEE - Deploy su Netlify
+# HUMANITEE — Essential Minimal Apparel
 
+> A premium minimal t-shirt brand with a unique ordering experience.
 
+**Live site:** [thehumanitee.com](https://www.thehumanitee.com)
 
-## File necessari per il deploy:
-- index.html (pagina principale)
-- style.css (stili)
-- script.js (JavaScript principale)
-- order.html, order.css, order.js (pagina ordini)
-- ORIGIN.png (immagine prodotto)
-- paypal.png, opayo.png, card.png (icone metodi di pagamento)
-- data/users.json (dati utenti)
-- netlify.toml (configurazione Netlify)
+## Overview
+HUMANITEE is a mobile-first e-commerce landing page featuring:
+- **Live world population counter** — real-time ticker fetched from Worldometers
+- **Unique Human Number** — every customer gets a unique number from 1 to 8.2 billion
+- **Inline order flow** — multi-step modal (weight → size → details → payment → confirmation)
+- **Responsive design** — mobile fullscreen modal, desktop editorial grid layout
 
-## Istruzioni:
-1. Crea un nuovo sito su Netlify
-2. Collega il repository GitHub oppure carica la cartella tramite drag & drop
-3. Build settings: lascia vuoto (sito statico)
-4. Publish directory: . (root)
-5. Deploy!
+## Tech Stack
+- Vanilla HTML, CSS, JavaScript (no frameworks)
+- Node.js + Express (API: world population, order creation, user lookup)
+- Deployed on Vercel
 
-## Note:
-- Il sito è completamente statico (HTML, CSS, JS)
-- server.js non è necessario per il deploy su Netlify
-- I dati utenti sono salvati in data/users.json
+## Files
+- `index.html` — main page
+- `style.css` — mobile-first responsive styles
+- `script.js` — client-side logic (modal flow, population ticker, order processing)
+- `server.js` — Express API server
+- `order.html / order.css / order.js` — standalone order page
+- `data/users.json` — user data and assigned numbers
+- `ORIGIN.png` — product image
+- `paypal.png / opayo.png / card.png` — payment method icons
+
+## Local Development
+```bash
+npm install
+node server.js
+# Open http://localhost:3000
+```
+
+## Deployment
+Deployed via Vercel, connected to GitHub `main` branch. Every push triggers auto-deploy.
