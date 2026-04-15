@@ -1,5 +1,6 @@
 # HUMANITEE - Deploy su Netlify
 
+
 ## File necessari per il deploy:
 - index.html (pagina principale)
 - style.css (stili)
