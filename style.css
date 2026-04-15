@@ -105,7 +105,7 @@ button {
   font-weight: 900;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  padding-left: 3rem;
+  padding-left: 2px;
 }
 
 /* Desktop nav hidden on mobile */
@@ -359,6 +359,7 @@ button {
 
 .hero-copy-panel {
   width: 100%;
+  margin-top: -10px;
 }
 
 .hero-desktop-eyebrow,
@@ -374,11 +375,42 @@ button {
   text-transform: uppercase;
   line-height: 0.95;
   margin-bottom: 1rem;
+  text-align: center;
+  overflow: visible;
+  padding-top: 1.5rem;
+}
+
+.hero-h-wrap {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
 }
 
 .hero-home-link {
   color: inherit;
   display: inline-block;
+}
+
+.hero-the {
+  position: absolute;
+  top: -0.35em;
+  left: 6px;
+  font-size: 0.27em;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: #000;
+  line-height: 1;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  z-index: 10;
+}
+
+.hero-word {
+  display: block;
+  line-height: 0.9;
+  margin: 0;
+  padding: 0;
 }
 
 .hero-counter {
