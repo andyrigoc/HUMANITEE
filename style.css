@@ -105,6 +105,7 @@ button {
   font-weight: 900;
   letter-spacing: 0.15em;
   text-transform: uppercase;
+  padding-left: 3rem;
 }
 
 /* Desktop nav hidden on mobile */
@@ -126,8 +127,8 @@ button {
   align-items: center;
   justify-content: center;
   gap: 0.3rem;
-  border: 2px solid #111;
-  border-radius: var(--radius-sm);
+  border: none;
+  border-radius: 0;
   transition: all 0.2s;
   background: transparent;
   cursor: pointer;
@@ -1975,6 +1976,7 @@ body.modal-open {
     display: inline-block;
     font-size: 1.25rem;
     letter-spacing: 0.22em;
+    margin-left: 0;
   }
 
   .hero {
@@ -1996,6 +1998,7 @@ body.modal-open {
   .hero-copy-panel {
     max-width: 580px;
     padding-left: 0;
+    padding-top: 2.5rem;
     margin-left: calc(1rem - (100vw - min(1280px, 100vw)) / 2);
   }
 
