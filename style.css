@@ -2005,7 +2005,7 @@ body.modal-open {
   .hero-the {
     display: block;
     position: absolute;
-    top: -0.35em;
+    top: calc(-0.35em - 5px);
     left: 6px;
     font-size: 0.27em;
     font-weight: 900;
@@ -2062,7 +2062,7 @@ body.modal-open {
   .hero-the {
     display: block;
     position: absolute;
-    top: -0.35em;
+    top: calc(-0.35em - 5px);
     left: 6px;
     font-size: 0.27em;
     font-weight: 900;
