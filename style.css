@@ -85,7 +85,7 @@ button {
 .header {
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 3000;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--color-border);
@@ -118,7 +118,7 @@ button {
   left: 1.25rem;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 1100;
+  z-index: 3100;
   width: 2.25rem;
   height: 2.25rem;
   display: flex !important;
@@ -1992,8 +1992,9 @@ body.modal-open {
   }
 
   .hero-copy-panel {
-    max-width: 620px;
-    padding-left: 0.5rem;
+    max-width: 580px;
+    padding-left: 0;
+    margin-left: calc(1rem - (100vw - min(1280px, 100vw)) / 2);
   }
 
   .hero-desktop-eyebrow,
