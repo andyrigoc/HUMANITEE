@@ -1968,9 +1968,16 @@ body.modal-open {
     height: 320px;
     margin-top: 0;
   }
+  .hero-image-wrap {
+    max-width: 100%;
+    overflow: visible;
+  }
+  .ht3d-carousel {
+    margin-left: calc((100vw - 61.2rem) / 2);
+  }
 }
 
-/* ─── Tablet only (768px – 1023px): carousel -50% ── */
+/* ─── Tablet only (768px – 1023px): carousel centrato ── */
 @media (min-width: 48rem) and (max-width: 63.99rem) {
   .carousel-scene {
     height: 380px;
@@ -1985,6 +1992,13 @@ body.modal-open {
   .carousel__cell.active img {
     width: 280px;
     height: 280px;
+  }
+  .hero-image-wrap {
+    max-width: 100%;
+    overflow: visible;
+  }
+  .ht3d-carousel {
+    margin-left: calc((100vw - 61.2rem) / 2);
   }
 }
 
