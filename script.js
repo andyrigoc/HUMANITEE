@@ -5,6 +5,28 @@
 (function() {
   'use strict';
 
+  // ─── Humanitee Story Popup ────────────────────────────────
+  const storyBtn = document.getElementById('storyBtn');
+  const storyPopupOverlay = document.getElementById('storyPopupOverlay');
+  const storyPopupClose = document.getElementById('storyPopupClose');
+
+  if (storyBtn && storyPopupOverlay) {
+    storyBtn.addEventListener('click', function() {
+      storyPopupOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    storyPopupClose.addEventListener('click', function() {
+      storyPopupOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+    storyPopupOverlay.addEventListener('click', function(e) {
+      if (e.target === storyPopupOverlay) {
+        storyPopupOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
   // ─── Mobile Sidebar Toggle ────────────────────────────────
   const menuBtn = document.getElementById('menuBtn');
   const navSidebar = document.getElementById('navSidebar');

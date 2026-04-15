@@ -2429,3 +2429,83 @@ img {
 }
 .ht3d-item-wrapper:has(.ht3d-item:hover) .ht3d-ground { opacity: 0.85; }
 
+/* ─── Humanitee Story Popup ─────────────────────── */
+.story-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+  padding: 1.5rem;
+}
+
+.story-popup-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.story-popup {
+  background: #fff;
+  max-width: 640px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 0.5rem;
+  padding: 3rem 2.5rem 2.5rem;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 1.2s ease;
+}
+
+.story-popup-overlay.active .story-popup {
+  transform: translateY(0);
+}
+
+.story-popup-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  line-height: 1;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+
+.story-popup-close:hover {
+  color: #000;
+}
+
+.story-popup-content h2 {
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+}
+
+.story-popup-content p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 1.25rem;
+}
+
+.story-popup-content em {
+  font-style: italic;
+  color: #555;
+}
+
+.story-popup-signature {
+  margin-top: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #000 !important;
+}
