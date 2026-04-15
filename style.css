@@ -252,8 +252,9 @@ button {
 
 /* ─── Hero Section (Mobile Base) ───────────────── */
 .hero {
-  padding: 0 0 3rem;
+  padding: 0;
   text-align: center;
+  display: none;
 }
 
 .hero-desktop-grid {
@@ -316,14 +317,14 @@ button {
 }
 
 .hero-actions {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 0.875rem;
   margin-bottom: 2rem;
 }
 
 .hero-meta {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
@@ -341,8 +342,7 @@ button {
 }
 
 .hero-flow-static {
-  position: relative;
-  z-index: 1;
+  display: none;
 }
 
 .inline-modal-host {
@@ -380,10 +380,12 @@ button {
 }
 
 .hero-start-btn {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%) translateY(10px);
+  position: relative;
+  left: auto;
+  bottom: auto;
+  transform: none;
+  display: block;
+  margin: 1.5rem auto 0;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.6s ease, transform 0.6s ease;
@@ -391,7 +393,7 @@ button {
 
 .hero-start-btn.visible {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: none;
   pointer-events: auto;
 }
 
@@ -1545,12 +1547,22 @@ body.modal-open {
 
   /* Hero */
   .hero {
+    display: block;
     padding: 0 0 4rem;
   }
 
   .hero-actions {
+    display: flex;
     flex-direction: row;
     justify-content: center;
+  }
+
+  .hero-meta {
+    display: flex;
+  }
+
+  .hero-flow-static {
+    display: block;
   }
 
   /* Categories */
@@ -1656,6 +1668,7 @@ body.modal-open {
   }
 
   .hero-actions {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
@@ -1663,6 +1676,7 @@ body.modal-open {
   }
 
   .hero-meta {
+    display: flex;
     justify-content: flex-start;
     margin-bottom: 0;
   }
@@ -1701,7 +1715,15 @@ body.modal-open {
   }
 
   .hero-start-btn {
+    position: absolute;
+    left: 50%;
     bottom: -56px;
+    margin: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+
+  .hero-start-btn.visible {
+    transform: translateX(-50%) translateY(0);
   }
 
   .container {

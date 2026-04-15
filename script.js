@@ -523,9 +523,17 @@
   const backBtn = document.getElementById('backBtn');
   const brandHome = document.getElementById('brandHome');
 
-  if (inlineModalHost && modalOverlay) {
+  const isDesktop = window.innerWidth >= 1024;
+
+  if (isDesktop && inlineModalHost && modalOverlay) {
     modalOverlay.classList.add('inline-mode');
     inlineModalHost.appendChild(modalOverlay);
+  }
+
+  // Mobile: auto-open modal fullscreen at step 0
+  if (!isDesktop && modalOverlay) {
+    modalOverlay.classList.add('active');
+    goSub(0);
   }
 
   // Open modal
@@ -572,6 +580,12 @@
   // Close modal
   function closeModal() {
     if (modalOverlay) {
+      if (!isDesktop) {
+        // Mobile: don't close, just go back to step 0
+        goSub(0);
+        return;
+      }
+
       modalOverlay.classList.remove('active');
 
       if (heroFlowBox) {
