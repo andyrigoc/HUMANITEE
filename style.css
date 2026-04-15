@@ -1962,6 +1962,16 @@ body.modal-open {
   }
 }
 
+/* ─── Tablet only (768px – 1023px): carousel -50% ── */
+@media (min-width: 48rem) and (max-width: 63.99rem) {
+  .carousel-scene {
+    transform: scale(0.5);
+    transform-origin: center top;
+    height: 342px;
+    margin-top: -75px;
+  }
+}
+
 /* ═══════════════════════════════════════════════════
    DESKTOP BREAKPOINT (1024px+)
    ═══════════════════════════════════════════════════ */
