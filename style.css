@@ -105,7 +105,7 @@ button {
   font-weight: 900;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  padding-left: 3rem;
+  padding-left: calc(3rem - 40px);
 }
 
 /* Desktop nav hidden on mobile */
@@ -2006,7 +2006,7 @@ body.modal-open {
     display: block;
     position: absolute;
     top: calc(-0.35em - 5px);
-    left: 6px;
+    left: 3px;
     font-size: 0.27em;
     font-weight: 900;
     letter-spacing: 0.15em;
@@ -2063,7 +2063,7 @@ body.modal-open {
     display: block;
     position: absolute;
     top: calc(-0.35em - 5px);
-    left: 6px;
+    left: 3px;
     font-size: 0.27em;
     font-weight: 900;
     letter-spacing: 0.15em;
