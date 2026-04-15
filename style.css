@@ -101,7 +101,7 @@ button {
 }
 
 .logo {
-  font-size: 1.125rem;
+  font-size: 1.012rem;
   font-weight: 900;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -118,9 +118,10 @@ button {
   left: 1.25rem;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 1100;
   width: 2.25rem;
   height: 2.25rem;
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -128,6 +129,10 @@ button {
   border: 2px solid #111;
   border-radius: var(--radius-sm);
   transition: all 0.2s;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .menu-btn span {
@@ -1867,14 +1872,14 @@ body.modal-open {
 /* ═══════════════════════════════════════════════════
    TABLET BREAKPOINT (768px+)
    ═══════════════════════════════════════════════════ */
-@media (min-width: 48rem) {
+@media (min-width: 64rem) {
   .container {
     padding: 0 2rem;
   }
 
   /* Header */
   .menu-btn {
-    display: none;
+    display: none !important;
   }
 
   .nav-sidebar,
