@@ -1974,6 +1974,10 @@ body.modal-open {
   }
   .ht3d-carousel {
     margin-left: calc((100vw - 61.2rem) / 2);
+    margin-top: -15rem;
+  }
+  .categories-section {
+    margin-top: -380px;
   }
 }
 
@@ -1999,6 +2003,10 @@ body.modal-open {
   }
   .ht3d-carousel {
     margin-left: calc((100vw - 61.2rem) / 2);
+    margin-top: -15rem;
+  }
+  .categories-section {
+    margin-top: -380px;
   }
 }
 
