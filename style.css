@@ -376,6 +376,14 @@ button {
   margin-bottom: 1rem;
 }
 
+.hero-h-wrap {
+  display: contents;
+}
+
+.hero-the {
+  display: none;
+}
+
 .hero-home-link {
   color: inherit;
   display: inline-block;
@@ -1971,6 +1979,7 @@ body.modal-open {
   .hero-copy-panel {
     position: relative;
     z-index: 10;
+    margin-top: -10px;
   }
   .hero-image-wrap {
     max-width: 100%;
@@ -1982,6 +1991,29 @@ body.modal-open {
   }
   .categories-section {
     margin-top: -430px;
+  }
+  .hero-title {
+    text-align: center;
+    padding-top: 1.5rem;
+    overflow: visible;
+  }
+  .hero-h-wrap {
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+  }
+  .hero-the {
+    display: block;
+    position: absolute;
+    top: -0.35em;
+    left: 6px;
+    font-size: 0.27em;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    color: #000;
+    line-height: 1;
+    white-space: nowrap;
+    z-index: 10;
   }
 }
 
@@ -2004,6 +2036,7 @@ body.modal-open {
   .hero-copy-panel {
     position: relative;
     z-index: 10;
+    margin-top: -10px;
   }
   .hero-image-wrap {
     max-width: 100%;
@@ -2015,6 +2048,29 @@ body.modal-open {
   }
   .categories-section {
     margin-top: -430px;
+  }
+  .hero-title {
+    text-align: center;
+    padding-top: 1.5rem;
+    overflow: visible;
+  }
+  .hero-h-wrap {
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+  }
+  .hero-the {
+    display: block;
+    position: absolute;
+    top: -0.35em;
+    left: 6px;
+    font-size: 0.27em;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    color: #000;
+    line-height: 1;
+    white-space: nowrap;
+    z-index: 10;
   }
 }
 
