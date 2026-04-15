@@ -590,7 +590,7 @@ button {
 
 .carousel__cell-label {
   position: absolute;
-  bottom: -22px;
+  bottom: -42px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.58rem;
