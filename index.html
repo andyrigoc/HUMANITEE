@@ -11,21 +11,21 @@
   <!-- Header -->
   <header class="header">
     <div class="container">
+      <button class="menu-btn" id="menuBtn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
       <a href="#home" class="logo">HUMANITEE</a>
 
       <nav class="nav" id="nav">
         <a href="#home">Home</a>
         <a href="#shop">Shop</a>
         <a href="#drops">Drops</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href="#about">Our Idea</a>
+        <a href="#contact">Contact Us</a>
       </nav>
-
-      <button class="menu-btn" id="menuBtn" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
     </div>
   </header>
 
@@ -50,6 +50,10 @@
             <div class="sub-intro">
               <h2>HUMANITEE</h2>
               <p class="sub-tagline">Your Marketplace for Smart T-Shirts</p>
+              <div class="modal-counter" aria-live="polite">
+                <p class="hero-counter-label">Current World Population</p>
+                <div class="hero-counter-value" id="modalPopulationValue">Loading...</div>
+              </div>
               <div class="intro-img-wrap">
                 <img src="ORIGIN.png" alt="HUMANITEE" class="intro-tee">
               </div>

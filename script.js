@@ -209,6 +209,7 @@
   // ─── Subwindow Order Flow ──────────────────────────────────
   const API = window.location.origin;
   const worldPopulationValue = document.getElementById('worldPopulationValue');
+  const modalPopulationValue = document.getElementById('modalPopulationValue');
   const subTrack = document.getElementById('subTrack');
   let currentSub = 0;
   const totalSteps = 6;
@@ -248,6 +249,7 @@
       const elapsedSeconds = (Date.now() - startedAt) / 1000;
       const currentPopulation = safeBasePopulation + (elapsedSeconds * safeGrowthPerSecond);
       worldPopulationValue.textContent = formatWorldPopulation(currentPopulation);
+      if (modalPopulationValue) modalPopulationValue.textContent = formatWorldPopulation(currentPopulation);
     };
 
     render();
@@ -523,17 +525,9 @@
   const backBtn = document.getElementById('backBtn');
   const brandHome = document.getElementById('brandHome');
 
-  const isDesktop = window.innerWidth >= 1024;
-
-  if (isDesktop && inlineModalHost && modalOverlay) {
+  if (inlineModalHost && modalOverlay) {
     modalOverlay.classList.add('inline-mode');
     inlineModalHost.appendChild(modalOverlay);
-  }
-
-  // Mobile: auto-open modal fullscreen at step 0
-  if (!isDesktop && modalOverlay) {
-    modalOverlay.classList.add('active');
-    goSub(0);
   }
 
   // Open modal
@@ -580,12 +574,6 @@
   // Close modal
   function closeModal() {
     if (modalOverlay) {
-      if (!isDesktop) {
-        // Mobile: don't close, just go back to step 0
-        goSub(0);
-        return;
-      }
-
       modalOverlay.classList.remove('active');
 
       if (heroFlowBox) {
