@@ -2042,6 +2042,7 @@ body.modal-open {
     max-width: 100%;
     margin: 0;
     overflow: visible;
+    transform: translateY(10rem);
   }
 
   .hero-flow-box.flow-open {
