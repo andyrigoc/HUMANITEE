@@ -673,7 +673,7 @@
 
     const total  = imageData.length;
     const theta  = 360 / total; // 36°
-    const radius = 390;         // px — increased 50% to match larger cells
+    const radius = 468;         // px — increased 20%
 
     const cells = [];
     let index     = 0;
@@ -710,7 +710,21 @@
 
     // ── Toggle active class ──────────────────────────────────
     function setActive() {
-      cells.forEach((cell, i) => cell.classList.toggle('active', i === index));
+      const prev = (index - 1 + total) % total;
+      const next = (index + 1) % total;
+      cells.forEach((cell, i) => {
+        cell.classList.toggle('active', i === index);
+        if (i === index) {
+          cell.style.opacity = '1';
+          cell.style.pointerEvents = 'auto';
+        } else if (i === prev || i === next) {
+          cell.style.opacity = '0.45';
+          cell.style.pointerEvents = 'auto';
+        } else {
+          cell.style.opacity = '0';
+          cell.style.pointerEvents = 'none';
+        }
+      });
     }
 
     // ── Rotate ───────────────────────────────────────────────

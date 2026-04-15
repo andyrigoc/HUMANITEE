@@ -533,9 +533,9 @@ button {
 .carousel-scene {
   position: relative;
   width: 100%;
-  height: 570px;
+  height: 684px;
   perspective: 1200px;
-  overflow: hidden;
+  overflow: visible;
   margin-top: -150px;
 }
 
@@ -544,6 +544,7 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  transform-style: preserve-3d;
   width: 0;
   height: 0;
 }
@@ -560,14 +561,14 @@ button {
 
 .carousel__cell {
   position: absolute;
-  width: 252px;
-  height: 252px;
-  top: -126px;
-  left: -126px;
+  width: 302px;
+  height: 302px;
+  top: -151px;
+  left: -151px;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.3;
+  opacity: 0;
   transition: opacity 0.4s ease;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -614,13 +615,13 @@ button {
 }
 
 .carousel__cell.active img {
-  width: 468px;
-  height: 468px;
+  width: 562px;
+  height: 562px;
 }
 
 .carousel__cell.zoom-selected img {
-  width: 656px;
-  height: 656px;
+  width: 787px;
+  height: 787px;
 }
 
 .carousel__cell.active .carousel__cell-label {
@@ -1979,16 +1980,17 @@ body.modal-open {
   .hero {
     min-height: calc(100vh - 4.875rem);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     text-align: left;
-    padding: 3rem 0 3.5rem;
+    padding: 0 0 3.5rem;
   }
 
   .hero-desktop-grid {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
+    overflow: visible;
   }
 
   .hero-copy-panel {
@@ -2042,7 +2044,7 @@ body.modal-open {
     max-width: 100%;
     margin: 0;
     overflow: visible;
-    transform: translateY(10rem);
+    transform: translateY(3rem);
   }
 
   .hero-flow-box.flow-open {
@@ -2074,19 +2076,19 @@ body.modal-open {
 
   /* 3D Carousel — desktop */
   .carousel-scene {
-    height: 690px;
+    height: 828px;
   }
 
   .carousel__cell {
-    width: 240px;
-    height: 240px;
-    top: -120px;
-    left: -120px;
+    width: 288px;
+    height: 288px;
+    top: -144px;
+    left: -144px;
   }
 
   .carousel__cell.active img {
-    width: 576px;
-    height: 576px;
+    width: 691px;
+    height: 691px;
   }
 
   .hero-start-btn {
@@ -2165,7 +2167,7 @@ body.modal-open {
    ═══════════════════════════════════════════════════ */
 @media (min-width: 90rem) {
   .hero {
-    padding: 3.5rem 0 4rem;
+    padding: 0 0 4rem;
   }
 
   .categories-section,
@@ -2228,3 +2230,151 @@ img {
 * {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* ─── HT3D CSS Carousel ─────────────────────────── */
+.ht3d-carousel {
+  --_diam:  61.2rem;
+  --_r:     calc(var(--_diam) / 2);
+  --_iw:    16.1rem;
+  --_ih:    24.2rem;
+  --_dur:   28s;
+  --_ease:  250ms ease-out;
+  --_play:  running;
+  --_dir:   paused;
+
+  perspective:        1000px;
+  perspective-origin: 50% 20%;
+  width:  var(--_diam);
+  height: var(--_diam);
+  position: relative;
+}
+
+/* Control buttons */
+.ht3d-control-btn {
+  z-index: 2;
+  width: 1.1rem;
+  height: 3.5rem;
+  background: rgba(0,0,0,0.12);
+  opacity: 0.35;
+  transition: opacity var(--_ease);
+  position: absolute;
+  top: calc(var(--_r) - 1.75rem);
+}
+.ht3d-control-btn:hover                        { opacity: 0.6; }
+.ht3d-control-btn:has(input:checked)           { opacity: 0.85; }
+.ht3d-control-btn input {
+  appearance: none;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.ht3d-control-btn.left  {
+  clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
+  left: 0;
+}
+.ht3d-control-btn.right {
+  clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+  right: 0;
+}
+.ht3d-carousel:has(.ht3d-control-btn.left  input:checked) { --_dir:  running; }
+.ht3d-carousel:has(.ht3d-control-btn.right input:checked) { --_dir:  paused;  }
+
+/* Rotation wrapper */
+.ht3d-rotation-dir {
+  transform: translateZ(calc(var(--_r) * -1));
+  transform-style: preserve-3d;
+  animation: ht3d-rev calc(var(--_dur) / 2) reverse linear infinite var(--_dir);
+  transition: all var(--_ease);
+}
+@keyframes ht3d-rev {
+  from { transform: translateZ(calc(-30.6rem)) rotateY(0deg);   }
+  to   { transform: translateZ(calc(-30.6rem)) rotateY(360deg); }
+}
+@keyframes ht3d-fwd {
+  from { transform: rotateY(0deg);   }
+  to   { transform: rotateY(360deg); }
+}
+
+/* Item list */
+.ht3d-item-wrapper {
+  transform-style: inherit;
+  width: inherit;
+  height: inherit;
+  list-style: none;
+  position: relative;
+  animation: ht3d-fwd var(--_dur) linear infinite var(--_play);
+  transition: all var(--_ease);
+}
+.ht3d-rotation-dir:has(.ht3d-item:hover) {
+  --_play: paused;
+  --_dir:  paused;
+}
+
+/* Individual item */
+.ht3d-item {
+  --_rot: calc(360 / var(--_n) * var(--_i) * 1deg);
+  left:      calc(var(--_r) - var(--_iw) / 2);
+  top:       calc(var(--_r) - var(--_ih) / 2);
+  transform: rotateY(var(--_rot)) translateZ(var(--_r));
+  transform-style: inherit;
+  width:  var(--_iw);
+  height: var(--_ih);
+  transition: all var(--_ease);
+  position: absolute;
+}
+.ht3d-item:hover {
+  transform: rotateY(var(--_rot)) translateZ(calc(var(--_r) * 1.08));
+}
+
+/* Image (via ::after so ::before is free for reflection) */
+.ht3d-item a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-indent: -9999px;
+  background-image: var(--_img);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.13));
+  transition: filter var(--_ease);
+}
+.ht3d-item:hover a {
+  filter: drop-shadow(0 12px 32px rgba(0,0,0,0.22));
+}
+
+/* Reflection */
+.ht3d-item::before {
+  content: '';
+  width: inherit;
+  height: 50%;
+  background-image:
+    linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.97) 50%),
+    var(--_img);
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: contain;
+  pointer-events: none;
+  filter: blur(0.35rem) opacity(0.5);
+  transform-style: inherit;
+  transform-origin: center bottom;
+  transform: rotateX(90deg) rotateZ(180deg) rotateY(180deg);
+  position: absolute;
+}
+
+/* Ground shadow */
+.ht3d-ground {
+  left:      calc(var(--_r) - var(--_diam) / 2);
+  top:       calc(var(--_r) - var(--_diam) / 2);
+  transform: rotateX(90deg) translateZ(calc(var(--_ih) / -2.2));
+  width:  var(--_diam);
+  height: var(--_diam);
+  border-radius: 50%;
+  background: radial-gradient(ellipse 40% 18% at 50% 50%, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.08) 45%, rgba(255,255,255,0) 75%);
+  opacity: 0.6;
+  position: absolute;
+  filter: blur(0.4rem);
+}
+.ht3d-item-wrapper:has(.ht3d-item:hover) .ht3d-ground { opacity: 0.85; }
+
