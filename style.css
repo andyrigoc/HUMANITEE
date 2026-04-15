@@ -1845,27 +1845,6 @@ input:focus-visible {
 
 /* Prevent layout shift */
 
-/* ─── Debug Layout Overlay (temporary) ───────────────────── */
-body.debug-layout * {
-  outline: 1px solid rgba(34, 197, 94, 0.75) !important;
-}
-
-body.debug-layout *:hover {
-  outline: 2px solid rgba(22, 163, 74, 1) !important;
-}
-
-body.debug-layout {
-  --debug-gap-fill: rgba(34, 197, 94, 0.08);
-}
-
-body.debug-layout .container,
-body.debug-layout .hero-flow-box,
-body.debug-layout .modal-mobile,
-body.debug-layout .sub-step,
-body.debug-layout .modal-options,
-body.debug-layout .size-grid {
-  background-image: linear-gradient(var(--debug-gap-fill), var(--debug-gap-fill));
-}
 img {
   content-visibility: auto;
 }
