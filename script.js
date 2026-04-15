@@ -673,7 +673,9 @@
 
     const total  = imageData.length;
     const theta  = 360 / total; // 36°
-    const radius = 468;         // px — increased 20%
+    const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+    const isMobile = window.innerWidth < 768;
+    const radius = isMobile ? 234 : isTablet ? 233 : 468;
 
     const cells = [];
     let index     = 0;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>HUMANITEE — Essential Minimal Apparel</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -235,9 +235,23 @@
           <div class="hero-flow-box" id="heroFlowBox">
             <div class="hero-flow-static">
               <div class="hero-image-wrap">
-                <div class="carousel-scene" id="carouselScene">
-                  <div class="carousel-container">
-                    <div class="carousel" id="carousel3D"></div>
+                <div class="ht3d-carousel">
+                  <div class="ht3d-control-btn left"><input type="radio" name="ht3d-ctrl"></div>
+                  <div class="ht3d-control-btn right"><input type="radio" name="ht3d-ctrl" checked></div>
+                  <div class="ht3d-rotation-dir">
+                    <ul class="ht3d-item-wrapper" style="--_n: 10">
+                      <li class="ht3d-item" style="--_i: 1;  --_img: url('ORIGIN.png')"><a>LIGHTWEIGHT</a></li>
+                      <li class="ht3d-item" style="--_i: 2;  --_img: url('ORIGIN.png')"><a>PREMIUM</a></li>
+                      <li class="ht3d-item" style="--_i: 3;  --_img: url('ORIGIN.png')"><a>HEAVY</a></li>
+                      <li class="ht3d-item" style="--_i: 4;  --_img: url('ORIGIN.png')"><a>ULTRA LIGHT</a></li>
+                      <li class="ht3d-item" style="--_i: 5;  --_img: url('ORIGIN.png')"><a>SIGNATURE</a></li>
+                      <li class="ht3d-item" style="--_i: 6;  --_img: url('ORIGIN.png')"><a>ESSENTIAL</a></li>
+                      <li class="ht3d-item" style="--_i: 7;  --_img: url('ORIGIN.png')"><a>CLASSIC</a></li>
+                      <li class="ht3d-item" style="--_i: 8;  --_img: url('ORIGIN.png')"><a>OVERSIZE</a></li>
+                      <li class="ht3d-item" style="--_i: 9;  --_img: url('ORIGIN.png')"><a>STRUCTURED</a></li>
+                      <li class="ht3d-item" style="--_i: 10; --_img: url('ORIGIN.png')"><a>ORIGIN</a></li>
+                      <li class="ht3d-ground"></li>
+                    </ul>
                   </div>
                 </div>
                 <button class="pick-size-btn" id="pickSizeBtn">PICK YOUR SIZE</button>

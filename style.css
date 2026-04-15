@@ -1962,13 +1962,29 @@ body.modal-open {
   }
 }
 
+/* ─── Mobile: riduci altezza carousel ────────────── */
+@media (max-width: 47.99rem) {
+  .carousel-scene {
+    height: 320px;
+    margin-top: 0;
+  }
+}
+
 /* ─── Tablet only (768px – 1023px): carousel -50% ── */
 @media (min-width: 48rem) and (max-width: 63.99rem) {
   .carousel-scene {
-    transform: scale(0.5);
-    transform-origin: center top;
-    height: 342px;
-    margin-top: -75px;
+    height: 380px;
+    margin-top: 0;
+  }
+  .carousel__cell {
+    width: 150px;
+    height: 150px;
+    top: -75px;
+    left: -75px;
+  }
+  .carousel__cell.active img {
+    width: 280px;
+    height: 280px;
   }
 }
 
