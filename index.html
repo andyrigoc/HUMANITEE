@@ -29,6 +29,32 @@
     </div>
   </header>
 
+  <!-- Sidebar Navigation -->
+  <div class="nav-overlay" id="navOverlay"></div>
+  <aside class="nav-sidebar" id="navSidebar" aria-label="Navigation menu">
+    <div class="nav-sidebar-head">
+      <button class="nav-sidebar-close" id="navSidebarClose" aria-label="Close menu">&#x2715;</button>
+    </div>
+    <div class="sidebar-group">
+      <h4 class="sidebar-group-title">SHOP</h4>
+      <a href="#shop" class="sidebar-link">T-Shirts</a>
+      <a href="#drops" class="sidebar-link">Drops</a>
+      <a href="#shop" class="sidebar-link">Collections</a>
+    </div>
+    <div class="sidebar-group">
+      <h4 class="sidebar-group-title">INFO</h4>
+      <a href="#about" class="sidebar-link">About</a>
+      <a href="#" class="sidebar-link">Shipping</a>
+      <a href="#" class="sidebar-link">Returns</a>
+    </div>
+    <div class="sidebar-group">
+      <h4 class="sidebar-group-title">CONTACT</h4>
+      <a href="#contact" class="sidebar-link">Email</a>
+      <a href="#" class="sidebar-link">Instagram</a>
+      <a href="#contact" class="sidebar-link">Support</a>
+    </div>
+  </aside>
+
   <!-- Modal/Subwindow Order Flow -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal-mobile">
@@ -93,7 +119,6 @@
 
           <!-- Step 2: Size -->
           <div class="sub-step">
-            <h3 class="sub-title">SELECT YOUR SIZE</h3>
             <div class="size-grid">
               <div class="size-box" data-size="XS">XS</div>
               <div class="size-box" data-size="S">S</div>
@@ -196,11 +221,11 @@
             <p class="hero-desc hero-desktop-desc">Essential clothing built around form, silence and presence. A clean landing page for a premium minimal brand.</p>
 
             <div class="hero-actions">
-              <button class="btn btn-primary" id="openModal">Shop the Drop</button>
               <a href="#about" class="btn btn-secondary hero-secondary-btn">Discover the Brand</a>
             </div>
 
             <div class="hero-meta">
+              <button class="story-btn">The Humanitee Story</button>
               <span>Premium cotton</span>
               <span>Minimal silhouettes</span>
               <span>Quiet identity</span>
@@ -210,10 +235,12 @@
           <div class="hero-flow-box" id="heroFlowBox">
             <div class="hero-flow-static">
               <div class="hero-image-wrap">
-                <div class="hero-image">
-                  <img src="ORIGIN.png" alt="HUMANITEE T-Shirt">
+                <div class="carousel-scene" id="carouselScene">
+                  <div class="carousel-container">
+                    <div class="carousel" id="carousel3D"></div>
+                  </div>
                 </div>
-                <button class="start-btn hero-start-btn" id="heroStartBtn" aria-label="Start order flow">START</button>
+                <button class="pick-size-btn" id="pickSizeBtn">PICK YOUR SIZE</button>
               </div>
             </div>
 
@@ -382,6 +409,32 @@
       </div>
     </div>
   </footer>
+
+  <!-- Luxury Confirmation Popup -->
+  <div class="luxury-popup" id="luxuryPopup" role="dialog" aria-modal="true" aria-labelledby="luxuryTitle">
+    <div class="luxury-popup-inner">
+      <div class="luxury-number-area">
+        <p class="luxury-num-label">Your Unique Number</p>
+        <div class="luxury-number" id="luxuryNumber"></div>
+      </div>
+      <div class="luxury-divider"></div>
+      <div class="luxury-body">
+        <h2 class="luxury-title" id="luxuryTitle">WELCOME TO HUMANITEE</h2>
+        <p>Your purchase is complete.</p>
+        <p>Your unique piece has now been assigned.</p>
+        <p>From this moment, your item is permanently linked to your personal identification number — a number created exclusively for you and reserved for life.</p>
+        <p>It will never be assigned to anyone else.</p>
+        <p>Whenever you return, you may change, upgrade, or replace your item while keeping your original number forever.</p>
+        <p>Your number can always be retrieved and verified using:</p>
+        <p class="luxury-verify"><strong>Name / Surname / Date of Birth</strong></p>
+        <p>You are no longer simply wearing a garment.</p>
+        <p>You are now part of something greater.</p>
+        <p>One unique piece within one united whole.</p>
+        <p class="luxury-final">Welcome to Humanitee.</p>
+      </div>
+      <button class="luxury-close-btn" id="luxuryClose">CLOSE</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

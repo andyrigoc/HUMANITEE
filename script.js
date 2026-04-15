@@ -5,31 +5,38 @@
 (function() {
   'use strict';
 
-  // ─── Mobile Menu Toggle ───────────────────────────────────
+  // ─── Mobile Sidebar Toggle ────────────────────────────────
   const menuBtn = document.getElementById('menuBtn');
-  const nav = document.getElementById('nav');
+  const navSidebar = document.getElementById('navSidebar');
+  const navOverlay = document.getElementById('navOverlay');
+  const navSidebarClose = document.getElementById('navSidebarClose');
 
-  if (menuBtn && nav) {
-    menuBtn.addEventListener('click', () => {
-      menuBtn.classList.toggle('active');
-      nav.classList.toggle('open');
-    });
+  function openSidebar() {
+    if (navSidebar) navSidebar.classList.add('open');
+    if (navOverlay) navOverlay.classList.add('open');
+    if (menuBtn) menuBtn.classList.add('active');
+  }
 
-    // Close menu when clicking a link
-    const navLinks = nav.querySelectorAll('a');
-    navLinks.forEach(link => {
+  function closeSidebar() {
+    if (navSidebar) navSidebar.classList.remove('open');
+    if (navOverlay) navOverlay.classList.remove('open');
+    if (menuBtn) menuBtn.classList.remove('active');
+  }
+
+  if (menuBtn && navSidebar) {
+    menuBtn.addEventListener('click', () =>
+      navSidebar.classList.contains('open') ? closeSidebar() : openSidebar()
+    );
+  }
+
+  if (navSidebarClose) navSidebarClose.addEventListener('click', closeSidebar);
+  if (navOverlay) navOverlay.addEventListener('click', closeSidebar);
+
+  if (navSidebar) {
+    navSidebar.querySelectorAll('.sidebar-link').forEach(link => {
       link.addEventListener('click', () => {
-        menuBtn.classList.remove('active');
-        nav.classList.remove('open');
+        closeSidebar();
       });
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!menuBtn.contains(e.target) && !nav.contains(e.target)) {
-        menuBtn.classList.remove('active');
-        nav.classList.remove('open');
-      }
     });
   }
 
@@ -229,6 +236,9 @@
     email: '',
     paymentMethod: ''
   };
+
+  let selectedCarouselWeight = null;
+  // heroBtnLabel / heroStartBtn removed — replaced by pickSizeBtn
 
   function formatWorldPopulation(value) {
     return Math.max(0, Math.floor(value)).toLocaleString('en-GB');
@@ -500,7 +510,16 @@
           document.getElementById('confirmDetails').innerHTML = html;
           document.getElementById('emailNote').textContent = `Confirmation will be sent to ${order.email}`;
           
-          goSub(5); // confirmation
+          // Show luxury confirmation popup
+          const lp = document.getElementById('luxuryPopup');
+          const lpNum = document.getElementById('luxuryNumber');
+          if (lp && lpNum) {
+            lpNum.textContent = data.formattedNumber;
+            lp.classList.add('active');
+            requestAnimationFrame(() => requestAnimationFrame(() => lp.classList.add('shown')));
+          } else {
+            goSub(5); // fallback if luxury popup not found
+          }
         } else {
           showPopup('Order failed. Try again.');
           btnPay.textContent = 'Pay £15.00'; 
@@ -519,60 +538,49 @@
   const modalOverlay = document.getElementById('modalOverlay');
   const inlineModalHost = document.getElementById('inlineModalHost');
   const heroFlowBox = document.getElementById('heroFlowBox');
-  const openModalBtn = document.getElementById('openModal');
-  const heroStartBtn = document.getElementById('heroStartBtn');
   const heroHomeLink = document.querySelector('.hero-home-link');
   const backBtn = document.getElementById('backBtn');
   const brandHome = document.getElementById('brandHome');
+  const pickSizeBtn = document.getElementById('pickSizeBtn');
 
   if (inlineModalHost && modalOverlay) {
     modalOverlay.classList.add('inline-mode');
     inlineModalHost.appendChild(modalOverlay);
   }
 
-  // Open modal
-  if (openModalBtn && modalOverlay) {
-    openModalBtn.addEventListener('click', (e) => {
-      e.preventDefault();
+  // Open modal from PICK YOUR SIZE button
+  function openModalWithWeight(weight) {
+    selectedCarouselWeight = weight;
+    // Pre-select in step 1
+    modalOptions.forEach(o => o.classList.remove('selected'));
+    const matchOpt = document.querySelector('.modal-option[data-weight="' + weight + '"]');
+    if (matchOpt) { matchOpt.classList.add('selected'); order.weight = weight; }
 
-      if (!openModalBtn.classList.contains('fade-out')) {
-        openModalBtn.classList.add('fade-out');
-      }
-
-      if (heroStartBtn) {
-        heroStartBtn.classList.add('visible');
-      }
-    });
+    if (heroFlowBox) heroFlowBox.classList.add('flow-open');
+    if (inlineModalHost) inlineModalHost.classList.add('active');
+    modalOverlay.classList.add('active');
+    goSub(2); // Skip weight step — move straight to size
   }
 
-  if (heroStartBtn && modalOverlay) {
-    heroStartBtn.addEventListener('click', () => {
-      if (heroFlowBox) {
-        heroFlowBox.classList.add('flow-open');
-      }
-
-      if (inlineModalHost) {
-        inlineModalHost.classList.add('active');
-      }
-
-      modalOverlay.classList.add('active');
-      goSub(1); // Skip intro because START was clicked in hero
-      resetWeightScroll();
+  if (pickSizeBtn) {
+    pickSizeBtn.addEventListener('click', () => {
+      if (selectedCarouselWeight) openModalWithWeight(selectedCarouselWeight);
     });
   }
 
   function resetHeroEntryButtons() {
-    if (openModalBtn) {
-      openModalBtn.classList.remove('fade-out');
-    }
-
-    if (heroStartBtn) {
-      heroStartBtn.classList.remove('visible');
-    }
+    // Hide pick-size button and remove carousel zoom
+    if (pickSizeBtn) pickSizeBtn.classList.remove('visible');
+    selectedCarouselWeight = null;
+    document.querySelectorAll('.carousel__cell').forEach(c => c.classList.remove('zoom-selected'));
   }
 
   // Close modal
   function closeModal() {
+    // Dismiss luxury popup if open
+    const lp = document.getElementById('luxuryPopup');
+    if (lp) lp.classList.remove('shown', 'active');
+
     if (modalOverlay) {
       modalOverlay.classList.remove('active');
 
@@ -609,6 +617,21 @@
     brandHome.addEventListener('click', closeModal);
   }
 
+  // Luxury popup — CLOSE button
+  const luxuryCloseBtn = document.getElementById('luxuryClose');
+  if (luxuryCloseBtn) {
+    luxuryCloseBtn.addEventListener('click', () => {
+      const lp = document.getElementById('luxuryPopup');
+      if (lp) {
+        lp.classList.remove('shown');
+        setTimeout(() => {
+          lp.classList.remove('active');
+          closeModal();
+        }, 800);
+      }
+    });
+  }
+
   // Any HUMANITEE home link resets the full flow state
   if (heroHomeLink) {
     heroHomeLink.addEventListener('click', (e) => {
@@ -629,5 +652,140 @@
 
   // ─── Debug Log (Remove in production) ─────────────────────
   console.log('HUMANITEE — Mobile-first design loaded ✓');
+
+  // ─── 3D Carousel (BrandedUK-style) ───────────────────────
+  (function initCarousel() {
+    const carouselEl = document.getElementById('carousel3D');
+    if (!carouselEl) return;
+
+    const imageData = [
+      { src: 'ORIGIN.png', label: 'LIGHTWEIGHT',  weight: 'lightweight' },
+      { src: 'ORIGIN.png', label: 'PREMIUM',       weight: 'premium'     },
+      { src: 'ORIGIN.png', label: 'HEAVY',         weight: 'heavy'       },
+      { src: 'ORIGIN.png', label: 'ULTRA LIGHT',   weight: 'lightweight' },
+      { src: 'ORIGIN.png', label: 'SIGNATURE',     weight: 'premium'     },
+      { src: 'ORIGIN.png', label: 'ESSENTIAL',     weight: 'lightweight' },
+      { src: 'ORIGIN.png', label: 'CLASSIC',       weight: 'premium'     },
+      { src: 'ORIGIN.png', label: 'OVERSIZE',      weight: 'heavy'       },
+      { src: 'ORIGIN.png', label: 'STRUCTURED',    weight: 'heavy'       },
+      { src: 'ORIGIN.png', label: 'ORIGIN',        weight: 'premium'     }
+    ];
+
+    const total  = imageData.length;
+    const theta  = 360 / total; // 36°
+    const radius = 390;         // px — increased 50% to match larger cells
+
+    const cells = [];
+    let index     = 0;
+    let rotationY = 0;
+    let timer     = null;
+    let touchStartX = null;
+
+    // ── Build cells ─────────────────────────────────────────
+    imageData.forEach((item) => {
+      const cell = document.createElement('div');
+      cell.className  = 'carousel__cell';
+      cell.dataset.weight = item.weight;
+
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = item.label;
+      cell.appendChild(img);
+
+      const lbl = document.createElement('div');
+      lbl.className   = 'carousel__cell-label';
+      lbl.textContent = item.label;
+      cell.appendChild(lbl);
+
+      carouselEl.appendChild(cell);
+      cells.push(cell);
+    });
+
+    // ── Position cells around Y axis ─────────────────────────
+    function positionCells() {
+      cells.forEach((cell, i) => {
+        cell.style.transform = 'rotateY(' + (theta * i) + 'deg) translateZ(' + radius + 'px)';
+      });
+    }
+
+    // ── Toggle active class ──────────────────────────────────
+    function setActive() {
+      cells.forEach((cell, i) => cell.classList.toggle('active', i === index));
+    }
+
+    // ── Rotate ───────────────────────────────────────────────
+    function rotate(dir) {
+      if (dir === 'next') {
+        index      = (index + 1) % total;
+        rotationY -= theta;
+      } else {
+        index      = (index - 1 + total) % total;
+        rotationY += theta;
+      }
+      updateTransform();
+    }
+
+    // ── Apply CSS transform + update states ──────────────────
+    function updateTransform() {
+      carouselEl.style.transform = 'rotateX(-5deg) rotateY(' + rotationY + 'deg)';
+      setActive();
+      startAuto();
+    }
+
+    // ── Auto-rotate every 4 s (resets on interaction) ────────
+    function startAuto() {
+      clearInterval(timer);
+      timer = setInterval(() => rotate('next'), 4000);
+    }
+
+    // ── Touch swipe ──────────────────────────────────────────
+    carouselEl.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    carouselEl.addEventListener('touchend', (e) => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if      (dx >  30) rotate('prev');
+      else if (dx < -30) rotate('next');
+      touchStartX = null;
+    }, { passive: true });
+
+    // ── Cell click: adjacent → rotate; active → doppio-tap/click → zoom + PICK YOUR SIZE ──
+    cells.forEach((cell, i) => {
+      let lastTap = 0;
+
+      function handleSelect() {
+        selectedCarouselWeight = imageData[i].weight;
+        openModalWithWeight(selectedCarouselWeight);
+      }
+
+      cell.addEventListener('click', () => {
+        const next = (index + 1) % total;
+        const prev = (index - 1 + total) % total;
+
+        if (i === next) {
+          rotate('next');
+        } else if (i === prev) {
+          rotate('prev');
+        } else if (i === index) {
+          // Active cell: detect double-tap (< 300 ms between two taps)
+          const now = Date.now();
+          if (now - lastTap < 300) {
+            handleSelect();
+          }
+          lastTap = now;
+        }
+      });
+
+      // Desktop double-click
+      cell.addEventListener('dblclick', () => {
+        if (i === index) handleSelect();
+      });
+    });
+
+    positionCells();
+    updateTransform(); // initial state (no animation — transition fires only on change)
+  })();
 
 })();
