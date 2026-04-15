@@ -1968,6 +1968,10 @@ body.modal-open {
     height: 320px;
     margin-top: 0;
   }
+  .hero-copy-panel {
+    position: relative;
+    z-index: 10;
+  }
   .hero-image-wrap {
     max-width: 100%;
     overflow: visible;
@@ -1996,6 +2000,10 @@ body.modal-open {
   .carousel__cell.active img {
     width: 280px;
     height: 280px;
+  }
+  .hero-copy-panel {
+    position: relative;
+    z-index: 10;
   }
   .hero-image-wrap {
     max-width: 100%;
