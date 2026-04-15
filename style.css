@@ -1973,7 +1973,7 @@ body.modal-open {
     overflow: visible;
   }
   .ht3d-carousel {
-    margin-left: calc((100vw - 61.2rem) / 2);
+    margin-left: calc((100vw - 61.2rem) / 2 - 20px);
     margin-top: -15rem;
   }
   .categories-section {
@@ -2002,7 +2002,7 @@ body.modal-open {
     overflow: visible;
   }
   .ht3d-carousel {
-    margin-left: calc((100vw - 61.2rem) / 2);
+    margin-left: calc((100vw - 61.2rem) / 2 - 20px);
     margin-top: -15rem;
   }
   .categories-section {
