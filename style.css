@@ -43,6 +43,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -52,6 +53,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 img {
@@ -623,7 +625,13 @@ button {
 
 .carousel__cell.active {
   opacity: 1;
-  cursor: default;
+  cursor: pointer;
+}
+
+.carousel__cell.hovered img {
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.22));
+  transform: scale(1.04);
+  transition: transform 0.25s ease, filter 0.25s ease;
 }
 
 .carousel__cell.active img {
@@ -1989,7 +1997,7 @@ body.modal-open {
     overflow: visible;
   }
   .ht3d-carousel {
-    margin-left: calc((100vw - 61.2rem) / 2 - 20px);
+    margin-left: calc((100vw - 61.2rem) / 2);
     margin-top: -15rem;
   }
   .categories-section {
@@ -2046,7 +2054,7 @@ body.modal-open {
     overflow: visible;
   }
   .ht3d-carousel {
-    margin-left: calc((100vw - 61.2rem) / 2 - 20px);
+    margin-left: calc((100vw - 61.2rem) / 2);
     margin-top: -15rem;
   }
   .categories-section {
@@ -2091,7 +2099,7 @@ body.modal-open {
     display: inline-block;
     font-size: 1.25rem;
     letter-spacing: 0.22em;
-    margin-left: 0;
+    margin-left: 30px;
   }
 
   .hero {

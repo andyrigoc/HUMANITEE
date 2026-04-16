@@ -703,7 +703,6 @@
     let index     = 0;
     let rotationY = 0;
     let timer     = null;
-    let touchStartX = null;
 
     // ── Build cells ─────────────────────────────────────────
     imageData.forEach((item) => {
@@ -776,49 +775,65 @@
       timer = setInterval(() => rotate('next'), 4000);
     }
 
-    // ── Touch swipe ──────────────────────────────────────────
+    // ── Hover: evidenzia e ferma il carosello ─────────────────
+    cells.forEach((cell, i) => {
+      cell.addEventListener('mouseenter', () => {
+        if (cell.style.opacity === '0') return; // ignora celle invisibili
+        clearInterval(timer); // ferma auto-rotate
+        cells.forEach(c => c.classList.remove('hovered'));
+        cell.classList.add('hovered');
+      });
+      cell.addEventListener('mouseleave', () => {
+        cell.classList.remove('hovered');
+        startAuto(); // riprende auto-rotate
+      });
+    });
+
+    // ── Touch swipe (solo se è uno swipe, non un tap) ───────
+    let touchStartX = null;
+    let touchMoved = false;
+
     carouselEl.addEventListener('touchstart', (e) => {
       touchStartX = e.touches[0].clientX;
+      touchMoved = false;
+    }, { passive: true });
+
+    carouselEl.addEventListener('touchmove', (e) => {
+      if (touchStartX === null) return;
+      if (Math.abs(e.touches[0].clientX - touchStartX) > 10) touchMoved = true;
     }, { passive: true });
 
     carouselEl.addEventListener('touchend', (e) => {
       if (touchStartX === null) return;
       const dx = e.changedTouches[0].clientX - touchStartX;
-      if      (dx >  30) rotate('prev');
-      else if (dx < -30) rotate('next');
+      if (touchMoved) {
+        if      (dx >  30) rotate('prev');
+        else if (dx < -30) rotate('next');
+      }
       touchStartX = null;
     }, { passive: true });
 
-    // ── Cell click: adjacent → rotate; active → doppio-tap/click → zoom + PICK YOUR SIZE ──
+    // ── Click/tap su qualsiasi cella visibile → apre modale ──
     cells.forEach((cell, i) => {
-      let lastTap = 0;
-
       function handleSelect() {
         selectedCarouselWeight = imageData[i].weight;
         openModalWithWeight(selectedCarouselWeight);
       }
 
-      cell.addEventListener('click', () => {
+      cell.addEventListener('click', (e) => {
+        // Su mobile ignora se era uno swipe
+        if (touchMoved) return;
+        if (cell.style.opacity === '0') return;
+
         const next = (index + 1) % total;
         const prev = (index - 1 + total) % total;
 
-        if (i === next) {
-          rotate('next');
-        } else if (i === prev) {
-          rotate('prev');
-        } else if (i === index) {
-          // Active cell: detect double-tap (< 300 ms between two taps)
-          const now = Date.now();
-          if (now - lastTap < 300) {
-            handleSelect();
-          }
-          lastTap = now;
+        if (i === index) {
+          handleSelect();
+        } else if (i === next || i === prev) {
+          rotate(i === next ? 'next' : 'prev');
+          setTimeout(() => handleSelect(), 750);
         }
-      });
-
-      // Desktop double-click
-      cell.addEventListener('dblclick', () => {
-        if (i === index) handleSelect();
       });
     });
 
