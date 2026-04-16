@@ -995,7 +995,7 @@
       htCarousel.style.setProperty('--_dir', 'paused');
       htCarousel.style.setProperty('--_play', 'paused');
 
-      // 2. Dopo 1 secondo, congela e centra
+      // 2. Dopo 300ms, congela e centra
       setTimeout(() => {
         freezeAnimations();
 
@@ -1006,7 +1006,7 @@
         const cs = getComputedStyle(rotDir).transform;
 
         // Applica transition e nuovo transform
-        rotDir.style.transition = 'transform 0.6s ease';
+        rotDir.style.transition = 'transform 0.4s ease-out';
         // Manteniamo translateZ(-30.6rem) e settiamo rotateY target
         rotDir.style.transform = 'translateZ(calc(var(--_r) * -1)) rotateY(' + targetAngle + 'deg)';
 
@@ -1017,9 +1017,9 @@
           item.classList.add('ht3d-selected');
           showSelectBtn();
           selecting = false;
-        }, 650);
+        }, 450);
 
-      }, 1000);
+      }, 300);
     }
 
     // ── Deseleziona e riprendi rotazione ──
