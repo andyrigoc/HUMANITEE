@@ -859,41 +859,75 @@
     updateTransform(); // initial state (no animation — transition fires only on change)
   })();
 
-  // ─── CSS Carousel swipe (mobile/tablet) ──────────────────
+  // ─── CSS Carousel swipe + doppio tap (mobile/tablet) ─────
   (function initCSSCarouselSwipe() {
     const htCarousel = document.querySelector('.ht3d-carousel');
     if (!htCarousel) return;
-    // Solo su touch device
     if (!('ontouchstart' in window)) return;
 
     const rotDir = htCarousel.querySelector('.ht3d-rotation-dir');
     if (!rotDir) return;
 
-    let swipeStartX = null;
-    let lastDir = null; // 'fwd' | 'rev'
+    const items = Array.from(htCarousel.querySelectorAll('.ht3d-item'));
 
+    let swipeStartX  = null;
+    let swipeMoved   = false;
+    let lastDir      = null;
+    let lastTapTime  = 0;
+    let isSelected   = false;
+
+    // Cambia direzione animazione CSS
     function setDirection(dir) {
       if (dir === lastDir) return;
       lastDir = dir;
-      // Sovrascrive animation-direction inline (inline > stylesheet)
-      if (dir === 'fwd') {
-        rotDir.style.animationDirection = 'normal';
-      } else {
-        rotDir.style.animationDirection = 'reverse';
-      }
-      // Assicura che sia in play
+      htCarousel.classList.toggle('swipe-fwd', dir === 'fwd');
       htCarousel.style.setProperty('--_dir', 'running');
+    }
+
+    // Trova l'item più vicino all'osservatore (area maggiore in px)
+    function getFrontItem() {
+      let front = null, maxArea = 0;
+      items.forEach(item => {
+        const r = item.getBoundingClientRect();
+        const area = r.width * r.height;
+        if (area > maxArea) { maxArea = area; front = item; }
+      });
+      return front;
+    }
+
+    function selectFront() {
+      htCarousel.style.setProperty('--_dir', 'paused');
+      isSelected = true;
+      items.forEach(i => i.classList.remove('ht3d-selected'));
+      const front = getFrontItem();
+      if (front) front.classList.add('ht3d-selected');
+    }
+
+    function deselect() {
+      items.forEach(i => i.classList.remove('ht3d-selected'));
+      htCarousel.style.setProperty('--_dir', 'running');
+      isSelected = false;
     }
 
     htCarousel.addEventListener('touchstart', (e) => {
       swipeStartX = e.touches[0].clientX;
+      swipeMoved  = false;
+
+      const now = Date.now();
+      if (now - lastTapTime < 350) {
+        // Doppio tap
+        isSelected ? deselect() : selectFront();
+        lastTapTime = 0;
+      } else {
+        lastTapTime = now;
+      }
     }, { passive: true });
 
     htCarousel.addEventListener('touchmove', (e) => {
-      if (swipeStartX === null) return;
+      if (swipeStartX === null || isSelected) return;
       const dx = e.touches[0].clientX - swipeStartX;
       if (Math.abs(dx) > 12) {
-        // Swipe destra → ruota in avanti, swipe sinistra → indietro
+        swipeMoved = true;
         setDirection(dx > 0 ? 'fwd' : 'rev');
       }
     }, { passive: true });

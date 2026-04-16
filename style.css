@@ -1984,6 +1984,7 @@ body.modal-open {
 /* ─── Mobile: riduci altezza carousel ────────────── */
 @media (max-width: 47.99rem) {
   .ht3d-control-btn { display: none; }
+  .carousel-scene {
     height: 320px;
     margin-top: 0;
   }
@@ -2424,6 +2425,15 @@ img {
   from { transform: translateZ(calc(-30.6rem)) rotateY(0deg);   }
   to   { transform: translateZ(calc(-30.6rem)) rotateY(360deg); }
 }
+@keyframes ht3d-rev-back {
+  from { transform: translateZ(calc(-30.6rem)) rotateY(0deg);    }
+  to   { transform: translateZ(calc(-30.6rem)) rotateY(-360deg); }
+}
+/* Direzione inversa (swipe destra) */
+.ht3d-carousel.swipe-fwd .ht3d-rotation-dir {
+  animation-name: ht3d-rev-back;
+  animation-direction: normal;
+}
 @keyframes ht3d-fwd {
   from { transform: rotateY(0deg);   }
   to   { transform: rotateY(360deg); }
@@ -2510,6 +2520,16 @@ img {
   filter: blur(0.4rem);
 }
 .ht3d-item-wrapper:has(.ht3d-item:hover) .ht3d-ground { opacity: 0.85; }
+
+/* Item selezionato (doppio tap mobile/tablet) */
+.ht3d-item.ht3d-selected {
+  transform: rotateY(var(--_rot)) translateZ(calc(var(--_r) * 1.25)) !important;
+}
+.ht3d-item.ht3d-selected a {
+  filter: drop-shadow(0 16px 48px rgba(0,0,0,0.3)) !important;
+  transform: scale(1.15);
+  transition: transform 350ms ease-out;
+}
 
 /* ─── Humanitee Story Popup ─────────────────────── */
 .story-popup-overlay {
