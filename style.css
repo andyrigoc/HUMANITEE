@@ -1839,7 +1839,6 @@ body.modal-open {
 @media (max-width: 600px) {
   .hero-flow-box.flow-open {
     min-height: 385px;
-  }
     margin: -80px 0 0 0;
   }
 
@@ -2453,6 +2452,12 @@ img {
   --_play: paused;
   --_dir:  paused;
 }
+@media (hover: none) {
+  .ht3d-rotation-dir:has(.ht3d-item:hover) {
+    --_play: running;
+    --_dir:  running;
+  }
+}
 
 /* Individual item */
 .ht3d-item {
@@ -2521,14 +2526,44 @@ img {
 }
 .ht3d-item-wrapper:has(.ht3d-item:hover) .ht3d-ground { opacity: 0.85; }
 
-/* Item selezionato (doppio tap mobile/tablet) */
+/* Item selezionato (tap mobile/tablet) */
 .ht3d-item.ht3d-selected {
-  transform: rotateY(var(--_rot)) translateZ(calc(var(--_r) * 1.25)) !important;
+  transform: rotateY(var(--_rot)) translateZ(calc(var(--_r) * 1.3)) !important;
 }
 .ht3d-item.ht3d-selected a {
   filter: drop-shadow(0 16px 48px rgba(0,0,0,0.3)) !important;
-  transform: scale(1.15);
+  transform: scale(1.3);
   transition: transform 350ms ease-out;
+}
+
+/* Bottone SELECT sotto carousel (mobile/tablet) */
+.ht3d-select-btn {
+  display: block;
+  margin: 0.5rem auto 0;
+  padding: 10px 36px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 50px;
+  background: #111;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  position: relative;
+  z-index: 20;
+}
+.ht3d-select-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.ht3d-select-btn:active {
+  background: #333;
 }
 
 /* ─── Humanitee Story Popup ─────────────────────── */

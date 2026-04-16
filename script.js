@@ -581,7 +581,7 @@
     if (heroFlowBox) heroFlowBox.classList.add('flow-open');
     if (inlineModalHost) inlineModalHost.classList.add('active');
     modalOverlay.classList.add('active');
-    goSub(2); // Skip weight step — move straight to size
+    goSub(matchOpt ? 2 : 1); // Skip weight step only if match found
   }
 
   if (pickSizeBtn) {
@@ -859,7 +859,7 @@
     updateTransform(); // initial state (no animation — transition fires only on change)
   })();
 
-  // ─── CSS Carousel swipe + doppio tap (mobile/tablet) ─────
+  // ─── CSS Carousel swipe + tap select (mobile/tablet) ─────
   (function initCSSCarouselSwipe() {
     const htCarousel = document.querySelector('.ht3d-carousel');
     if (!htCarousel) return;
@@ -867,16 +867,23 @@
 
     const rotDir = htCarousel.querySelector('.ht3d-rotation-dir');
     if (!rotDir) return;
+    const itemWrapper = rotDir.querySelector('.ht3d-item-wrapper');
+    if (!itemWrapper) return;
 
     const items = Array.from(htCarousel.querySelectorAll('.ht3d-item'));
+    const N = items.length;
 
-    let swipeStartX  = null;
-    let swipeMoved   = false;
-    let lastDir      = null;
-    let lastTapTime  = 0;
-    let isSelected   = false;
+    // Avvia rotazione automaticamente (frecce nascoste su mobile/tablet)
+    htCarousel.style.setProperty('--_dir', 'running');
 
-    // Cambia direzione animazione CSS
+    let swipeStartX   = null;
+    let swipeMoved    = false;
+    let lastDir       = null;
+    let selectedItem  = null;
+    let selectBtn     = null;
+    let selecting     = false; // lock durante animazione selezione
+
+    // ── Direzione rotazione (swipe) ──
     function setDirection(dir) {
       if (dir === lastDir) return;
       lastDir = dir;
@@ -884,57 +891,182 @@
       htCarousel.style.setProperty('--_dir', 'running');
     }
 
-    // Trova l'item più vicino all'osservatore (area maggiore in px)
-    function getFrontItem() {
-      let front = null, maxArea = 0;
-      items.forEach(item => {
-        const r = item.getBoundingClientRect();
-        const area = r.width * r.height;
-        if (area > maxArea) { maxArea = area; front = item; }
-      });
-      return front;
+    // ── Crea/mostra bottone SELECT ──
+    function showSelectBtn() {
+      if (!selectBtn) {
+        selectBtn = document.createElement('button');
+        selectBtn.className = 'ht3d-select-btn';
+        selectBtn.textContent = 'SELECT';
+        htCarousel.parentElement.appendChild(selectBtn);
+        selectBtn.addEventListener('click', onSelectClick);
+      }
+      // Force reflow then show
+      void selectBtn.offsetWidth;
+      selectBtn.classList.add('visible');
     }
 
-    function selectFront() {
+    function hideSelectBtn() {
+      if (selectBtn) selectBtn.classList.remove('visible');
+    }
+
+    // ── SELECT click → apri modale ──
+    function onSelectClick() {
+      if (!selectedItem) return;
+      const weight = selectedItem.dataset.weight || '';
+      deselect();
+      openModalWithWeight(weight);
+    }
+
+    // ── Congela animazioni CSS (salva angoli attuali come transform inline) ──
+    function freezeAnimations() {
+      // Rotation dir
+      const rotAnims = rotDir.getAnimations();
+      const rotStyle = getComputedStyle(rotDir).transform;
+      rotDir.style.animation = 'none';
+      rotDir.style.transform = rotStyle === 'none' ? '' : rotStyle;
+
+      // Item wrapper
+      const wrapAnims = itemWrapper.getAnimations();
+      const wrapStyle = getComputedStyle(itemWrapper).transform;
+      itemWrapper.style.animation = 'none';
+      itemWrapper.style.transform = wrapStyle === 'none' ? '' : wrapStyle;
+    }
+
+    // ── Ripristina animazioni CSS ──
+    function unfreezeAnimations() {
+      rotDir.style.animation = '';
+      rotDir.style.transform = '';
+      itemWrapper.style.animation = '';
+      itemWrapper.style.transform = '';
+    }
+
+    // ── Calcola angolo Y corrente da una matrice CSS ──
+    function getRotateY(el) {
+      const st = getComputedStyle(el).transform;
+      if (!st || st === 'none') return 0;
+      // matrix3d(...)
+      const m = st.match(/matrix3d\((.+)\)/);
+      if (!m) return 0;
+      const vals = m[1].split(',').map(Number);
+      // rotateY angle from matrix3d
+      return Math.atan2(vals[8], vals[0]) * (180 / Math.PI);
+    }
+
+    // ── Calcola l'angolo target per centrare un item ──
+    function getTargetAngle(item) {
+      const idx = parseInt(item.style.getPropertyValue('--_i'), 10);
+      const itemAngle = (360 / N) * idx; // angolo dell'item nel wrapper
+
+      // Angolo attuale del wrapper (ht3d-fwd gira Y positivo)
+      const wrapAngle = getRotateY(itemWrapper);
+      // L'item è visivamente a wrapAngle + itemAngle
+      // Per centrarlo a 0° (fronte), il wrapper deve ruotare a -itemAngle
+      // Ma rotation-dir ha un suo angolo che influenza.
+      // Approccio semplice: calcoliamo la rotazione corrente del rotation-dir
+      const rotAngle = getRotateY(rotDir);
+
+      // Posizione visiva = rotAngle + wrapAngle + itemAngle
+      // Per centrare a 0° fronte: rotAngle_target = -(wrapAngle + itemAngle)
+      // Delta su rotation-dir = rotAngle_target - rotAngle
+      const targetRot = -(wrapAngle + itemAngle);
+
+      return targetRot;
+    }
+
+    // ── Tap su item: pausa → 1s → centra → zoom → SELECT ──
+    function handleItemTap(item) {
+      if (selecting) return;
+
+      // Se stessa selezione, deseleziona
+      if (selectedItem === item) {
+        deselect();
+        return;
+      }
+
+      selecting = true;
+
+      // Se c'era un altro item selezionato, pulisci
+      if (selectedItem) {
+        selectedItem.classList.remove('ht3d-selected');
+        hideSelectBtn();
+      }
+
+      // 1. Pausa immediata
       htCarousel.style.setProperty('--_dir', 'paused');
-      isSelected = true;
-      items.forEach(i => i.classList.remove('ht3d-selected'));
-      const front = getFrontItem();
-      if (front) front.classList.add('ht3d-selected');
+      htCarousel.style.setProperty('--_play', 'paused');
+
+      // 2. Dopo 1 secondo, congela e centra
+      setTimeout(() => {
+        freezeAnimations();
+
+        // Calcola target e applica transizione su rotation-dir
+        const targetAngle = getTargetAngle(item);
+
+        // Leggi il translateZ attuale dal computed transform
+        const cs = getComputedStyle(rotDir).transform;
+
+        // Applica transition e nuovo transform
+        rotDir.style.transition = 'transform 0.6s ease';
+        // Manteniamo translateZ(-30.6rem) e settiamo rotateY target
+        rotDir.style.transform = 'translateZ(calc(var(--_r) * -1)) rotateY(' + targetAngle + 'deg)';
+
+        // 3. Dopo transizione, zoom + SELECT
+        setTimeout(() => {
+          rotDir.style.transition = '';
+          selectedItem = item;
+          item.classList.add('ht3d-selected');
+          showSelectBtn();
+          selecting = false;
+        }, 650);
+
+      }, 1000);
     }
 
+    // ── Deseleziona e riprendi rotazione ──
     function deselect() {
-      items.forEach(i => i.classList.remove('ht3d-selected'));
+      if (selectedItem) {
+        selectedItem.classList.remove('ht3d-selected');
+        selectedItem = null;
+      }
+      hideSelectBtn();
+      unfreezeAnimations();
       htCarousel.style.setProperty('--_dir', 'running');
-      isSelected = false;
+      htCarousel.style.setProperty('--_play', 'running');
+      selecting = false;
     }
 
+    // ── Touch events ──
     htCarousel.addEventListener('touchstart', (e) => {
+      if (selecting) return;
       swipeStartX = e.touches[0].clientX;
       swipeMoved  = false;
-
-      const now = Date.now();
-      if (now - lastTapTime < 350) {
-        // Doppio tap
-        isSelected ? deselect() : selectFront();
-        lastTapTime = 0;
-      } else {
-        lastTapTime = now;
-      }
     }, { passive: true });
 
     htCarousel.addEventListener('touchmove', (e) => {
-      if (swipeStartX === null || isSelected) return;
+      if (swipeStartX === null || selecting) return;
       const dx = e.touches[0].clientX - swipeStartX;
       if (Math.abs(dx) > 12) {
         swipeMoved = true;
+        // Se c'è un item selezionato, deseleziona prima
+        if (selectedItem) deselect();
         setDirection(dx > 0 ? 'fwd' : 'rev');
       }
     }, { passive: true });
 
-    htCarousel.addEventListener('touchend', () => {
+    htCarousel.addEventListener('touchend', (e) => {
+      if (selecting) { swipeStartX = null; return; }
+
+      if (!swipeMoved && swipeStartX !== null) {
+        // Era un tap (nessun movimento)
+        const touch = e.changedTouches[0];
+        const tapTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+        const tappedItem = tapTarget ? tapTarget.closest('.ht3d-item') : null;
+        if (tappedItem && items.includes(tappedItem)) {
+          handleItemTap(tappedItem);
+        }
+      }
+
       swipeStartX = null;
-      // Il carousel continua nell'ultima direzione (momentum)
     }, { passive: true });
   })();
 
