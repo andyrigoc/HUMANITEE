@@ -573,15 +573,17 @@
   // Open modal from PICK YOUR SIZE button
   function openModalWithWeight(weight) {
     selectedCarouselWeight = weight;
-    // Pre-select in step 1
+    order.weight = weight; // Salva weight dal carousel
+    
+    // Pre-select in step 1 (se esiste match)
     modalOptions.forEach(o => o.classList.remove('selected'));
     const matchOpt = document.querySelector('.modal-option[data-weight="' + weight + '"]');
-    if (matchOpt) { matchOpt.classList.add('selected'); order.weight = weight; }
+    if (matchOpt) { matchOpt.classList.add('selected'); }
 
     if (heroFlowBox) heroFlowBox.classList.add('flow-open');
     if (inlineModalHost) inlineModalHost.classList.add('active');
     modalOverlay.classList.add('active');
-    goSub(matchOpt ? 2 : 1); // Skip weight step only if match found
+    goSub(2); // Vai sempre allo step 2 (taglie)
   }
 
   if (pickSizeBtn) {
