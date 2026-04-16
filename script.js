@@ -1063,6 +1063,9 @@
         const tappedItem = tapTarget ? tapTarget.closest('.ht3d-item') : null;
         if (tappedItem && items.includes(tappedItem)) {
           handleItemTap(tappedItem);
+        } else if (selectedItem) {
+          // Tap su spazio vuoto: deseleziona
+          deselect();
         }
       }
 
