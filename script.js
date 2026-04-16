@@ -681,16 +681,16 @@
     if (!carouselEl) return;
 
     const imageData = [
-      { src: 'ORIGIN.png', label: 'LIGHTWEIGHT',  weight: 'lightweight' },
-      { src: 'ORIGIN.png', label: 'PREMIUM',       weight: 'premium'     },
-      { src: 'ORIGIN.png', label: 'HEAVY',         weight: 'heavy'       },
-      { src: 'ORIGIN.png', label: 'ULTRA LIGHT',   weight: 'lightweight' },
-      { src: 'ORIGIN.png', label: 'SIGNATURE',     weight: 'premium'     },
-      { src: 'ORIGIN.png', label: 'ESSENTIAL',     weight: 'lightweight' },
-      { src: 'ORIGIN.png', label: 'CLASSIC',       weight: 'premium'     },
-      { src: 'ORIGIN.png', label: 'OVERSIZE',      weight: 'heavy'       },
-      { src: 'ORIGIN.png', label: 'STRUCTURED',    weight: 'heavy'       },
-      { src: 'ORIGIN.png', label: 'ORIGIN',        weight: 'premium'     }
+      { src: 'ORIGIN.webp', label: 'LIGHTWEIGHT',  weight: 'lightweight' },
+      { src: 'ORIGIN.webp', label: 'PREMIUM',       weight: 'premium'     },
+      { src: 'ORIGIN.webp', label: 'HEAVY',         weight: 'heavy'       },
+      { src: 'ORIGIN.webp', label: 'ULTRA LIGHT',   weight: 'lightweight' },
+      { src: 'ORIGIN.webp', label: 'SIGNATURE',     weight: 'premium'     },
+      { src: 'ORIGIN.webp', label: 'ESSENTIAL',     weight: 'lightweight' },
+      { src: 'ORIGIN.webp', label: 'CLASSIC',       weight: 'premium'     },
+      { src: 'ORIGIN.webp', label: 'OVERSIZE',      weight: 'heavy'       },
+      { src: 'ORIGIN.webp', label: 'STRUCTURED',    weight: 'heavy'       },
+      { src: 'ORIGIN.webp', label: 'ORIGIN',        weight: 'premium'     }
     ];
 
     const total  = imageData.length;

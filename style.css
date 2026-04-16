@@ -566,6 +566,7 @@ button {
   transform-origin: center center;
   transition: transform 0.7s ease;
   transform: rotateX(-5deg) rotateY(0deg);
+  will-change: transform;
 }
 
 .carousel__cell {
@@ -581,6 +582,8 @@ button {
   transition: opacity 0.4s ease;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .carousel__cell::after {
