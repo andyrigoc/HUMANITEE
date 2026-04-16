@@ -813,32 +813,95 @@
       touchStartX = null;
     }, { passive: true });
 
-    // ── Click/tap su qualsiasi cella visibile → apre modale ──
-    cells.forEach((cell, i) => {
-      function handleSelect() {
-        selectedCarouselWeight = imageData[i].weight;
-        openModalWithWeight(selectedCarouselWeight);
-      }
+    // ── Click/tap: singolo → porta al centro | doppio → espande + modale ──
+    let lastTapCell = -1;
+    let lastTapTime = 0;
 
-      cell.addEventListener('click', (e) => {
-        // Su mobile ignora se era uno swipe
+    cells.forEach((cell, i) => {
+      cell.addEventListener('click', () => {
         if (touchMoved) return;
         if (cell.style.opacity === '0') return;
 
+        const now = Date.now();
         const next = (index + 1) % total;
         const prev = (index - 1 + total) % total;
 
-        if (i === index) {
-          handleSelect();
-        } else if (i === next || i === prev) {
-          rotate(i === next ? 'next' : 'prev');
-          setTimeout(() => handleSelect(), 750);
+        if (i !== index) {
+          // Cella non centrale: ruota verso di essa
+          if (i === next) rotate('next');
+          else if (i === prev) rotate('prev');
+          lastTapCell = -1;
+          lastTapTime = 0;
+          return;
+        }
+
+        // Cella centrale: doppio click/tap apre modale
+        if (lastTapCell === i && now - lastTapTime < 400) {
+          // Doppio tap: espandi + apri modale
+          cells.forEach(c => c.classList.remove('zoom-selected'));
+          cell.classList.add('zoom-selected');
+          clearInterval(timer);
+          setTimeout(() => {
+            selectedCarouselWeight = imageData[i].weight;
+            openModalWithWeight(selectedCarouselWeight);
+          }, 300);
+          lastTapCell = -1;
+          lastTapTime = 0;
+        } else {
+          // Primo tap sulla centrale: aspetta secondo
+          lastTapCell = i;
+          lastTapTime = now;
         }
       });
     });
 
     positionCells();
     updateTransform(); // initial state (no animation — transition fires only on change)
+  })();
+
+  // ─── CSS Carousel swipe (mobile/tablet) ──────────────────
+  (function initCSSCarouselSwipe() {
+    const htCarousel = document.querySelector('.ht3d-carousel');
+    if (!htCarousel) return;
+    // Solo su touch device
+    if (!('ontouchstart' in window)) return;
+
+    const rotDir = htCarousel.querySelector('.ht3d-rotation-dir');
+    if (!rotDir) return;
+
+    let swipeStartX = null;
+    let lastDir = null; // 'fwd' | 'rev'
+
+    function setDirection(dir) {
+      if (dir === lastDir) return;
+      lastDir = dir;
+      // Sovrascrive animation-direction inline (inline > stylesheet)
+      if (dir === 'fwd') {
+        rotDir.style.animationDirection = 'normal';
+      } else {
+        rotDir.style.animationDirection = 'reverse';
+      }
+      // Assicura che sia in play
+      htCarousel.style.setProperty('--_dir', 'running');
+    }
+
+    htCarousel.addEventListener('touchstart', (e) => {
+      swipeStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    htCarousel.addEventListener('touchmove', (e) => {
+      if (swipeStartX === null) return;
+      const dx = e.touches[0].clientX - swipeStartX;
+      if (Math.abs(dx) > 12) {
+        // Swipe destra → ruota in avanti, swipe sinistra → indietro
+        setDirection(dx > 0 ? 'fwd' : 'rev');
+      }
+    }, { passive: true });
+
+    htCarousel.addEventListener('touchend', () => {
+      swipeStartX = null;
+      // Il carousel continua nell'ultima direzione (momentum)
+    }, { passive: true });
   })();
 
 })();

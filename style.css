@@ -1983,7 +1983,7 @@ body.modal-open {
 
 /* ─── Mobile: riduci altezza carousel ────────────── */
 @media (max-width: 47.99rem) {
-  .carousel-scene {
+  .ht3d-control-btn { display: none; }
     height: 320px;
     margin-top: 0;
   }
@@ -1997,7 +1997,10 @@ body.modal-open {
     overflow: visible;
   }
   .ht3d-carousel {
-    margin-left: calc((100vw - 61.2rem) / 2 - 20px);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: 0;
     margin-top: -15rem;
   }
   .categories-section {
@@ -2030,6 +2033,7 @@ body.modal-open {
 
 /* ─── Tablet only (768px – 1023px): carousel centrato ── */
 @media (min-width: 48rem) and (max-width: 63.99rem) {
+  .ht3d-control-btn { display: none; }
   .carousel-scene {
     height: 380px;
     margin-top: 0;
@@ -2054,7 +2058,10 @@ body.modal-open {
     overflow: visible;
   }
   .ht3d-carousel {
-    margin-left: calc((100vw - 61.2rem) / 2 - 20px);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: 0;
     margin-top: -15rem;
   }
   .categories-section {
