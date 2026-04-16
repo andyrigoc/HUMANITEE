@@ -480,7 +480,7 @@ button {
   display: block;
   pointer-events: auto;
   background: #fff;
-  padding-bottom: 200px;
+  padding-bottom: 500px;
   position: relative;
 }
 
@@ -1266,7 +1266,7 @@ button {
 }
 
 #btnDetailsNext {
-  margin-top: 107px;
+  margin-top: 5px;
 }
 
 /* Weight continue button */
