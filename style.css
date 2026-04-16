@@ -480,12 +480,12 @@ button {
   display: block;
   pointer-events: auto;
   background: #fff;
-  min-height: 100vh;
+  padding-bottom: 200px;
   position: relative;
 }
 
 .hero-flow-box.flow-open {
-  min-height: 100vh;
+  min-height: auto;
   position: relative;
   z-index: 50;
 }
