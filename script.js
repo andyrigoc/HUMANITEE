@@ -145,22 +145,6 @@
     });
   });
 
-  // ─── Add to Cart Buttons ──────────────────────────────────
-  const addToCartBtns = document.querySelectorAll('.product-card .btn');
-  
-  addToCartBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const originalText = btn.textContent;
-      btn.textContent = 'Added ✓';
-      btn.style.background = '#2e7d32';
-      
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = '';
-      }, 1500);
-    });
-  });
-
   // ─── Performance: Lazy Load Images ────────────────────────
   if ('IntersectionObserver' in window) {
     const images = document.querySelectorAll('img[data-src]');
