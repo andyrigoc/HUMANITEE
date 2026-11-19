@@ -1060,3 +1060,22 @@
   })();
 
 })();
+
+
+// Progressive scroll reveal: content stays visible without JS or reduced motion.
+(function () {
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const elements = document.querySelectorAll('.statement, .newsletter-section .container, .footer-col, .footer-bottom');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-revealed');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.08 });
+  elements.forEach(el => {
+    el.setAttribute('data-scroll-reveal', '');
+    observer.observe(el);
+  });
+  document.documentElement.classList.add('reveal-ready');
+})();
