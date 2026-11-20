@@ -3867,8 +3867,11 @@ img {
   top: 38%;
   left: 50%;
   z-index: 0;
-  width: 100%;
+  width: 100vw;
+  max-width: none;
   margin: 0;
+  padding: 0 12px;
+  display: block;
   color: rgba(96, 95, 91, .2);
   text-align: center;
   pointer-events: none;
@@ -3880,10 +3883,14 @@ img {
 }
 
 .product-counter .hero-counter-value {
+  display: block;
+  width: 100%;
   color: rgba(96, 95, 91, .23);
   font-size: clamp(5.88rem, 16.8vw, 11.256rem);
   font-weight: 800;
   letter-spacing: -.035em;
+  line-height: .9;
+  text-align: center;
   white-space: nowrap;
 }
 
@@ -4060,6 +4067,8 @@ img {
 
   .hero-flow-static > .product-counter {
     top: 37%;
+    width: calc(100vw - 16px);
+    padding: 0;
   }
 
   .product-counter .hero-counter-value {
