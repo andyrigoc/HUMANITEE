@@ -22,9 +22,9 @@
       <div class="header-right">
         <nav class="nav" id="nav">
           <a href="#home">Home</a>
-          <a href="#shop">Shop</a>
-          <a href="#drops">Drops</a>
-          <a href="#about">Our Idea</a>
+          <a href="#home">Shop</a>
+          <a href="#home">Drops</a>
+          <a href="#home">Our Idea</a>
           <a href="#contact">Contact Us</a>
         </nav>
 
@@ -48,13 +48,13 @@
     </div>
     <div class="sidebar-group">
       <h4 class="sidebar-group-title">SHOP</h4>
-      <a href="#shop" class="sidebar-link">T-Shirts</a>
-      <a href="#drops" class="sidebar-link">Drops</a>
-      <a href="#shop" class="sidebar-link">Collections</a>
+      <a href="#home" class="sidebar-link">T-Shirts</a>
+      <a href="#home" class="sidebar-link">Drops</a>
+      <a href="#home" class="sidebar-link">Collections</a>
     </div>
     <div class="sidebar-group">
       <h4 class="sidebar-group-title">INFO</h4>
-      <a href="#about" class="sidebar-link">About</a>
+      <a href="#home" class="sidebar-link">About</a>
       <a href="#" class="sidebar-link">Shipping</a>
       <a href="#" class="sidebar-link">Returns</a>
     </div>
@@ -92,7 +92,7 @@
                 <div class="hero-counter-value" id="modalPopulationValue">Loading...</div>
               </div>
               <div class="intro-img-wrap">
-                <img src="ORIGIN.webp" alt="HUMANITEE" class="intro-tee">
+                <img src="ORIGIN.png" alt="Humanitee essential white tee" class="intro-tee">
               </div>
               <button class="start-btn" id="btnStart">START</button>
             </div>
@@ -108,15 +108,15 @@
               <div class="modal-options-container">
                 <div class="modal-options" id="weightOptions">
                   <div class="modal-option" data-weight="lightweight">
-                    <img src="ORIGIN.webp" alt="Lightweight">
+                    <img src="ORIGIN.png" alt="Humanitee lightweight white tee">
                     <span>LIGHTWEIGHT</span>
                   </div>
                   <div class="modal-option" data-weight="premium">
-                    <img src="ORIGIN.webp" alt="Premium">
+                    <img src="ORIGIN.png" alt="Humanitee premium white tee">
                     <span>PREMIUM</span>
                   </div>
                   <div class="modal-option" data-weight="heavy">
-                    <img src="ORIGIN.webp" alt="Heavy">
+                    <img src="ORIGIN.png" alt="Humanitee heavy white tee">
                     <span>HEAVY</span>
                   </div>
                 </div>
@@ -129,22 +129,33 @@
           </div>
 
           <!-- Step 2: Size -->
-          <div class="sub-step">
-            <div class="size-grid">
-              <div class="size-box" data-size="XS">XS</div>
-              <div class="size-box" data-size="S">S</div>
-              <div class="size-box" data-size="M">M</div>
-              <div class="size-box" data-size="L">L</div>
-              <div class="size-box" data-size="XL">XL</div>
-              <div class="size-box" data-size="2XL">2XL</div>
-              <div class="size-box" data-size="3XL">3XL</div>
-              <div class="size-box" data-size="4XL">4XL</div>
-              <div class="size-box" data-size="5XL">5XL</div>
-              <div class="size-box" data-size="6XL">6XL</div>
-              <div class="size-box" data-size="7XL">7XL</div>
-              <div class="size-box" data-size="8XL">8XL</div>
+          <div class="sub-step size-step">
+            <div class="size-stage">
+              <div class="size-product">
+                <img src="ORIGIN.png" alt="Humanitee essential white tee">
+              </div>
+              <div class="size-selector-panel">
+                <div class="size-selector-heading">
+                  <span>Size</span>
+                  <strong id="selectedSizeLabel">Choose your fit</strong>
+                </div>
+                <div class="size-grid" aria-label="Choose a size">
+                  <button class="size-box" type="button" data-size="XS">XS</button>
+                  <button class="size-box" type="button" data-size="S">S</button>
+                  <button class="size-box" type="button" data-size="M">M</button>
+                  <button class="size-box" type="button" data-size="L">L</button>
+                  <button class="size-box" type="button" data-size="XL">XL</button>
+                  <button class="size-box" type="button" data-size="2XL">2XL</button>
+                  <button class="size-box" type="button" data-size="3XL">3XL</button>
+                  <button class="size-box" type="button" data-size="4XL">4XL</button>
+                  <button class="size-box" type="button" data-size="5XL">5XL</button>
+                  <button class="size-box" type="button" data-size="6XL">6XL</button>
+                  <button class="size-box" type="button" data-size="7XL">7XL</button>
+                  <button class="size-box" type="button" data-size="8XL">8XL</button>
+                </div>
+                <button class="start-btn size-continue" id="btnSizeNext" type="button" disabled aria-disabled="true">CONTINUE</button>
+              </div>
             </div>
-            <button class="start-btn" id="btnSizeNext">CONTINUE</button>
           </div>
 
           <!-- Step 3: Details -->
@@ -159,6 +170,7 @@
               <input class="sub-input" id="firstName" placeholder="First Name" autocomplete="given-name">
               <input class="sub-input" id="lastName" placeholder="Last Name" autocomplete="family-name">
               <input class="sub-input" id="dob" type="date" placeholder="Date of Birth">
+              <input class="sub-input" id="birthPlace" placeholder="Place of Birth" autocomplete="off">
               <input class="sub-input" id="email" type="email" placeholder="Email" autocomplete="email">
             </div>
             <button class="start-btn" id="btnDetailsNext">CONTINUE TO PAYMENT</button>
@@ -171,24 +183,16 @@
             <div class="payment-box">
               <p class="payment-total">Total: <strong>£15.00</strong></p>
               
-              <h4 class="payment-method-title">Choose Your Payment Method</h4>
+              <h4 class="payment-method-title">Secure checkout</h4>
               <div class="payment-methods">
-                <div class="payment-method" data-method="paypal">
-                  <img src="paypal.png" alt="PayPal" class="payment-icon">
-                  <span class="payment-name">PayPal</span>
-                </div>
-                <div class="payment-method" data-method="opayo">
-                  <img src="opayo.png" alt="Opayo" class="payment-icon">
-                  <span class="payment-name">Opayo</span>
-                </div>
-                <div class="payment-method" data-method="link">
+                <div class="payment-method selected" data-method="stripe">
                   <img src="card.png" alt="Payment Link" class="payment-icon">
-                  <span class="payment-name">Payment Link</span>
+                  <span class="payment-name">Card · Stripe</span>
                 </div>
               </div>
               
-              <button class="sub-btn sub-next" id="btnPay">Pay £15.00</button>
-              <p class="payment-note">Payment is simulated for testing.</p>
+              <button class="sub-btn sub-next" id="btnPay">Pay securely with Stripe</button>
+              <p class="payment-note">Your payment is processed securely by Stripe.</p>
             </div>
           </div>
 
@@ -362,15 +366,7 @@
           <div class="hero-copy-panel">
             <span class="eyebrow hero-desktop-eyebrow">Minimal Apparel</span>
             <h1 class="hero-title"><a href="#home" class="hero-home-link"><span class="hero-h-wrap"><span class="hero-the">THE</span>H</span>UMANITEE</a></h1>
-            <div class="hero-counter" aria-live="polite">
-              <p class="hero-counter-label">Current World Population</p>
-              <div class="hero-counter-value" id="worldPopulationValue">Loading...</div>
-            </div>
             <p class="hero-desc hero-desktop-desc">Essential clothing built around form, silence and presence. A clean landing page for a premium minimal brand.</p>
-
-            <div class="hero-actions">
-              <a href="#about" class="btn btn-secondary hero-secondary-btn">Discover the Brand</a>
-            </div>
 
             <div class="hero-meta">
               <button class="story-btn" id="storyBtn">The Humanitee Story</button>
@@ -382,27 +378,58 @@
 
           <div class="hero-flow-box" id="heroFlowBox">
             <div class="hero-flow-static">
+              <div class="hero-counter product-counter" aria-live="polite">
+                <p class="hero-counter-label">Current World Population</p>
+                <div class="hero-counter-value" id="worldPopulationValue">Loading...</div>
+              </div>
               <div class="hero-image-wrap">
-                <div class="ht3d-carousel">
-                  <div class="ht3d-control-btn left"><input type="radio" name="ht3d-ctrl"></div>
-                  <div class="ht3d-control-btn right"><input type="radio" name="ht3d-ctrl" checked></div>
-                  <div class="ht3d-rotation-dir">
-                    <ul class="ht3d-item-wrapper" style="--_n: 10">
-                      <li class="ht3d-item" data-weight="lightweight" style="--_i: 1;  --_img: url('ORIGIN.webp')"><a>LIGHTWEIGHT</a></li>
-                      <li class="ht3d-item" data-weight="premium" style="--_i: 2;  --_img: url('ORIGIN.webp')"><a>PREMIUM</a></li>
-                      <li class="ht3d-item" data-weight="heavy" style="--_i: 3;  --_img: url('ORIGIN.webp')"><a>HEAVY</a></li>
-                      <li class="ht3d-item" data-weight="ultralight" style="--_i: 4;  --_img: url('ORIGIN.webp')"><a>ULTRA LIGHT</a></li>
-                      <li class="ht3d-item" data-weight="signature" style="--_i: 5;  --_img: url('ORIGIN.webp')"><a>SIGNATURE</a></li>
-                      <li class="ht3d-item" data-weight="essential" style="--_i: 6;  --_img: url('ORIGIN.webp')"><a>ESSENTIAL</a></li>
-                      <li class="ht3d-item" data-weight="classic" style="--_i: 7;  --_img: url('ORIGIN.webp')"><a>CLASSIC</a></li>
-                      <li class="ht3d-item" data-weight="oversize" style="--_i: 8;  --_img: url('ORIGIN.webp')"><a>OVERSIZE</a></li>
-                      <li class="ht3d-item" data-weight="structured" style="--_i: 9;  --_img: url('ORIGIN.webp')"><a>STRUCTURED</a></li>
-                      <li class="ht3d-item" data-weight="origin" style="--_i: 10; --_img: url('ORIGIN.webp')"><a>ORIGIN</a></li>
-                      <li class="ht3d-ground"></li>
-                    </ul>
+                <div class="product-carousel" id="productCarousel" role="region" aria-roledescription="carousel" aria-label="Humanitee tee views" tabindex="0">
+                  <div class="carousel-viewport">
+                    <div class="carousel-track">
+                      <button class="carousel-slide" type="button" data-weight="lightweight" data-view="front" aria-label="Front view">
+                        <img src="ORIGIN.png" alt="Humanitee essential white tee">
+                        <span>Front</span>
+                      </button>
+                      <button class="carousel-slide" type="button" data-weight="lightweight" data-view="fit" aria-label="Fit view">
+                        <img src="ORIGIN.png" alt="Humanitee white tee fit detail">
+                        <span>Fit</span>
+                      </button>
+                      <button class="carousel-slide" type="button" data-weight="lightweight" data-view="fabric" aria-label="Fabric view">
+                        <img src="ORIGIN.png" alt="Humanitee white tee fabric detail">
+                        <span>Fabric</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <button class="pick-size-btn" id="pickSizeBtn">PICK YOUR SIZE</button>
+                <section class="landing-product-panel" aria-label="Choose product size">
+                  <div class="landing-size-title">SIZE</div>
+                  <div class="landing-size-grid">
+                    <button type="button" class="landing-size-option" data-size="XS">XS</button>
+                    <button type="button" class="landing-size-option" data-size="S">S</button>
+                    <button type="button" class="landing-size-option" data-size="M">M</button>
+                    <button type="button" class="landing-size-option" data-size="L">L</button>
+                    <button type="button" class="landing-size-option" data-size="XL">XL</button>
+                    <button type="button" class="landing-size-option" data-size="2XL">2XL</button>
+                    <button type="button" class="landing-size-option" data-size="3XL">3XL</button>
+                    <button type="button" class="landing-size-option" data-size="4XL">4XL</button>
+                    <button type="button" class="landing-size-option" data-size="5XL">5XL</button>
+                    <button type="button" class="landing-size-option" data-size="6XL">6XL</button>
+                    <button type="button" class="landing-size-option" data-size="7XL">7XL</button>
+                    <button type="button" class="landing-size-option" data-size="8XL">8XL</button>
+                  </div>
+                  <div class="landing-product-actions">
+                    <span class="landing-image-count" aria-live="polite"><b id="landingImageIndex">01</b> / 03</span>
+                    <div class="landing-view-controls" aria-label="Product views">
+                      <button class="carousel-arrow carousel-arrow-prev" type="button" aria-label="Previous tee view">
+                        <span aria-hidden="true">‹</span>
+                      </button>
+                      <button class="carousel-arrow carousel-arrow-next" type="button" aria-label="Next tee view">
+                        <span aria-hidden="true">›</span>
+                      </button>
+                    </div>
+                    <button type="button" class="landing-buy-btn" id="landingBuyBtn">Buy Product</button>
+                  </div>
+                </section>
               </div>
             </div>
 
@@ -412,188 +439,7 @@
       </div>
     </section>
 
-    <!-- Featured Categories -->
-    <section class="categories-section" id="shop">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Featured Essentials</h2>
-          <p class="section-desc">Premium tees designed for everyday life. Choose your weight and style.</p>
-        </div>
-
-        <div class="categories-grid">
-          <article class="category-card">
-            <div class="category-content">
-              <h3>Essential Tees</h3>
-              <p>Classic everyday silhouettes with premium minimal finish.</p>
-              <span class="link">Explore →</span>
-            </div>
-          </article>
-
-          <article class="category-card">
-            <div class="category-content">
-              <h3>Heavy Tees</h3>
-              <p>Structured weight, sharper drape, stronger presence.</p>
-              <span class="link">Explore →</span>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Product Cards -->
-    <section class="products-section" id="drops">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-kicker">Latest Drop</span>
-          <h2 class="section-title">New Arrivals</h2>
-        </div>
-
-        <div class="products-grid">
-          <article class="product-card" 
-            data-product-id="tee-black-001"
-            data-product-name="Essential Tee"
-            data-product-price="45.00"
-            data-product-color="Black"
-            data-product-size="M"
-            data-product-image="ORIGIN.webp">
-            <div class="product-image">
-              <img src="ORIGIN.webp" alt="Essential Tee Black">
-              <span class="badge">New</span>
-            </div>
-            <div class="product-info">
-              <h3>Essential Tee</h3>
-              <p class="price">€45.00</p>
-              <p class="product-desc">Premium cotton in black</p>
-              <button class="btn btn-small">Add to Cart</button>
-            </div>
-          </article>
-
-          <article class="product-card"
-            data-product-id="tee-white-002"
-            data-product-name="Heavy Tee"
-            data-product-price="55.00"
-            data-product-color="White"
-            data-product-size="M"
-            data-product-image="ORIGIN.webp">
-            <div class="product-image">
-              <img src="ORIGIN.webp" alt="Heavy Tee White">
-            </div>
-            <div class="product-info">
-              <h3>Heavy Tee</h3>
-              <p class="price">€55.00</p>
-              <p class="product-desc">Structured fit in white</p>
-              <button class="btn btn-small">Add to Cart</button>
-            </div>
-          </article>
-
-          <article class="product-card"
-            data-product-id="tee-grey-003"
-            data-product-name="Essential Tee"
-            data-product-price="45.00"
-            data-product-color="Grey"
-            data-product-size="M"
-            data-product-image="ORIGIN.webp">
-            <div class="product-image">
-              <img src="ORIGIN.webp" alt="Essential Tee Grey">
-            </div>
-            <div class="product-info">
-              <h3>Essential Tee</h3>
-              <p class="price">€45.00</p>
-              <p class="product-desc">Premium cotton in grey</p>
-              <button class="btn btn-small">Add to Cart</button>
-            </div>
-          </article>
-
-          <article class="product-card"
-            data-product-id="tee-black-004"
-            data-product-name="Heavy Tee"
-            data-product-price="55.00"
-            data-product-color="Black"
-            data-product-size="M"
-            data-product-image="ORIGIN.webp">
-            <div class="product-image">
-              <img src="ORIGIN.webp" alt="Heavy Tee Black">
-              <span class="badge">Limited</span>
-            </div>
-            <div class="product-info">
-              <h3>Heavy Tee</h3>
-              <p class="price">€55.00</p>
-              <p class="product-desc">Structured fit in black</p>
-              <button class="btn btn-small">Add to Cart</button>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Brand Statement -->
-    <section class="statement-section" id="about">
-      <div class="container">
-        <div class="statement">
-          <h2>The Human Uniform</h2>
-          <p>HUMANITEE is built around reduction. Fewer distractions, cleaner silhouettes, stronger identity. Essential pieces designed to last.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Newsletter -->
-    <section class="newsletter-section">
-      <div class="container">
-        <h2>Join the Next Drop</h2>
-        <p>Be the first to know about new releases and exclusive offers.</p>
-        
-        <form class="newsletter-form" id="newsletterForm">
-          <input 
-            type="email" 
-            placeholder="Enter your email" 
-            required
-            aria-label="Email address"
-          >
-          <button type="submit" class="btn btn-primary">Subscribe</button>
-        </form>
-        <p class="form-note" id="newsletterMsg"></p>
-      </div>
-    </section>
-
   </main>
-
-  <!-- Footer -->
-  <footer class="footer" id="contact">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <h4>HUMANITEE</h4>
-          <p>Minimal apparel. Clean presence. Quiet identity.</p>
-        </div>
-
-        <div class="footer-col">
-          <h4>Shop</h4>
-          <a href="#shop">T-Shirts</a>
-          <a href="#drops">Drops</a>
-          <a href="#shop">Collections</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>Info</h4>
-          <a href="#about">About</a>
-          <a href="#">Shipping</a>
-          <a href="#">Returns</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>Contact</h4>
-          <a href="mailto:info@humanitee.com">Email</a>
-          <a href="#">Instagram</a>
-          <a href="#">Support</a>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>© 2026 HUMANITEE. All rights reserved.</p>
-        <p><a href="#">Privacy</a> · <a href="#">Terms</a></p>
-      </div>
-    </div>
-  </footer>
 
   <!-- Luxury Confirmation Popup -->
   <div class="luxury-popup" id="luxuryPopup" role="dialog" aria-modal="true" aria-labelledby="luxuryTitle">
@@ -636,7 +482,7 @@
           <path d="M16 10a4 4 0 0 1-8 0"></path>
         </svg>
         <p>Your cart is empty</p>
-        <a href="#shop" class="btn" onclick="document.getElementById('cartModal').classList.remove('active')">Start Shopping</a>
+        <a href="#home" class="btn" onclick="document.getElementById('cartModal').classList.remove('active')">Explore Tees</a>
       </div>
 
       <div class="cart-content" id="cartContent" style="display: none;">

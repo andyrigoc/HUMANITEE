@@ -239,8 +239,9 @@
     firstName: '', 
     lastName: '', 
     dob: '', 
+    birthPlace: '',
     email: '',
-    paymentMethod: ''
+    paymentMethod: 'stripe'
   };
 
   let selectedCarouselWeight = null;
@@ -364,16 +365,31 @@
 
   // Step 2: Size
   const sizeBoxes = document.querySelectorAll('.size-box');
-  
+  const selectedSizeLabel = document.getElementById('selectedSizeLabel');
+  const btnSizeNext = document.getElementById('btnSizeNext');
+  const landingSizeOptions = document.querySelectorAll('.landing-size-option');
+  const landingBuyBtn = document.getElementById('landingBuyBtn');
+
+  sizeBoxes.forEach(box => box.setAttribute('aria-pressed', 'false'));
+
   sizeBoxes.forEach(box => {
     box.addEventListener('click', () => {
-      sizeBoxes.forEach(b => b.classList.remove('selected'));
+      sizeBoxes.forEach(b => {
+        b.classList.remove('selected');
+        b.setAttribute('aria-pressed', 'false');
+      });
       box.classList.add('selected');
+      box.setAttribute('aria-pressed', 'true');
       order.size = box.dataset.size;
+      if (selectedSizeLabel) selectedSizeLabel.textContent = box.dataset.size;
+      if (btnSizeNext) {
+        btnSizeNext.disabled = false;
+        btnSizeNext.classList.add('visible');
+        btnSizeNext.setAttribute('aria-disabled', 'false');
+      }
     });
   });
   
-  const btnSizeNext = document.getElementById('btnSizeNext');
   if (btnSizeNext) {
     btnSizeNext.addEventListener('click', () => {
       if (!order.size) { 
@@ -384,10 +400,45 @@
     });
   }
 
+  landingSizeOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      landingSizeOptions.forEach(item => {
+        item.classList.remove('selected');
+        item.setAttribute('aria-pressed', 'false');
+      });
+      option.classList.add('selected');
+      option.setAttribute('aria-pressed', 'true');
+      order.size = option.dataset.size;
+
+      sizeBoxes.forEach(box => {
+        const selected = box.dataset.size === order.size;
+        box.classList.toggle('selected', selected);
+        box.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      });
+      if (selectedSizeLabel) selectedSizeLabel.textContent = order.size;
+      if (btnSizeNext) {
+        btnSizeNext.disabled = false;
+        btnSizeNext.classList.add('visible');
+        btnSizeNext.setAttribute('aria-disabled', 'false');
+      }
+    });
+  });
+
+  if (landingBuyBtn) {
+    landingBuyBtn.addEventListener('click', () => {
+      if (!order.size) {
+        showPopup('Please select a size');
+        return;
+      }
+      openModalWithWeight(selectedCarouselWeight || 'lightweight', 3, true);
+    });
+  }
+
   // Step 3: Details — check returning user
   const firstNameInput = document.getElementById('firstName');
   const lastNameInput = document.getElementById('lastName');
   const dobInput = document.getElementById('dob');
+  const birthPlaceInput = document.getElementById('birthPlace');
   const orderEmailInput = document.getElementById('email');
   let checkTimeout;
   
@@ -435,9 +486,10 @@
       order.firstName = firstNameInput.value.trim();
       order.lastName = lastNameInput.value.trim();
       order.dob = dobInput.value;
+      order.birthPlace = birthPlaceInput.value.trim();
       order.email = orderEmailInput.value.trim();
       
-      if (!order.firstName || !order.lastName || !order.dob || !order.email) { 
+      if (!order.firstName || !order.lastName || !order.dob || !order.birthPlace || !order.email) {
         showPopup('Please fill in all fields'); 
         return; 
       }
@@ -451,13 +503,16 @@
       const review = document.getElementById('orderReview');
       if (review) {
         review.innerHTML = `
+          <div class="review-row"><span>Basket</span><strong>Humanitee Essential Tee</strong></div>
           <div class="review-row"><span>Weight</span><strong>${order.weight}</strong></div>
           <div class="review-row"><span>Size</span><strong>${order.size}</strong></div>
           <div class="review-row"><span>Name</span><strong>${order.firstName} ${order.lastName}</strong></div>
+          <div class="review-row"><span>Place of birth</span><strong>${order.birthPlace}</strong></div>
           <div class="review-row"><span>Email</span><strong>${order.email}</strong></div>
         `;
       }
-      
+
+      addConfiguredProductToCart();
       goSub(4); // payment
     });
   }
@@ -486,56 +541,33 @@
       btnPay.disabled = true;
       
       try {
-        const res = await fetch(`${API}/api/create-order`, {
-          method: 'POST', 
+        const checkoutResponse = await fetch(`${API}/api/stripe-checkout`, {
+          method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            firstName: order.firstName, 
+            firstName: order.firstName,
             lastName: order.lastName,
-            dob: order.dob, 
+            dob: order.dob,
+            birthPlace: order.birthPlace,
             email: order.email,
-            color: order.color, 
             size: order.size
           })
         });
-        
-        const data = await res.json();
-        
-        if (data.success) {
-          document.getElementById('confirmNumber').textContent = data.formattedNumber;
-          
-          let html = `
-            <div class="review-row"><span>Size</span><strong>${order.size}</strong></div>
-            <div class="review-row"><span>Name</span><strong>${data.firstName} ${data.lastName}</strong></div>
-          `;
-          
-          if (data.isReturning) {
-            html = `<p class="review-returning">Welcome back! Same number, new tee.</p>` + html;
+
+        if (checkoutResponse.ok) {
+          const checkout = await checkoutResponse.json();
+          if (checkout.url) {
+            window.location.assign(checkout.url);
+            return;
           }
-          
-          document.getElementById('confirmDetails').innerHTML = html;
-          document.getElementById('emailNote').textContent = `Confirmation will be sent to ${order.email}`;
-          
-          // Show luxury confirmation popup
-          const lp = document.getElementById('luxuryPopup');
-          const lpNum = document.getElementById('luxuryNumber');
-          if (lp && lpNum) {
-            lpNum.textContent = data.formattedNumber;
-            lp.classList.add('active');
-            requestAnimationFrame(() => requestAnimationFrame(() => lp.classList.add('shown')));
-          } else {
-            goSub(5); // fallback if luxury popup not found
-          }
-        } else {
-          showPopup('Order failed. Try again.');
-          btnPay.textContent = 'Pay £15.00'; 
-          btnPay.disabled = false;
         }
-      } catch(e) {
-        showPopup('Connection error. Is the server running?');
-        btnPay.textContent = 'Pay £15.00'; 
+
+        const checkoutError = await checkoutResponse.json().catch(() => ({}));
+        throw new Error(checkoutError.error || 'Stripe checkout is not configured.');
+      } catch (error) {
+        showPopup(error.message || 'Unable to open Stripe checkout.');
+        btnPay.textContent = 'Pay securely with Stripe';
         btnPay.disabled = false;
-        console.error('Payment error:', e);
       }
     });
   }
@@ -555,7 +587,42 @@
   }
 
   // Open modal from PICK YOUR SIZE button
-  function openModalWithWeight(weight) {
+  function addConfiguredProductToCart() {
+    const key = 'humanitee_cart';
+    let cartData;
+    try {
+      cartData = JSON.parse(localStorage.getItem(key) || 'null');
+    } catch (error) {
+      console.error('Unable to read cart:', error);
+      cartData = null;
+    }
+
+    const items = cartData && Array.isArray(cartData.items) ? cartData.items : [];
+    const existing = items.find(item => item.id === 'humanitee-essential-tee' && item.size === order.size);
+    if (!existing) {
+      items.push({
+        id: 'humanitee-essential-tee',
+        name: 'Humanitee Essential Tee',
+        price: 15,
+        color: 'White',
+        size: order.size,
+        image: 'ORIGIN.png',
+        quantity: 1,
+        addedAt: Date.now()
+      });
+    }
+
+    localStorage.setItem(key, JSON.stringify({ version: '1.0', items, timestamp: Date.now() }));
+    const count = items.reduce((total, item) => total + (item.quantity || 1), 0);
+    const badge = document.getElementById('cartBadge');
+    if (badge) {
+      badge.textContent = String(count);
+      badge.style.display = 'flex';
+    }
+    window.dispatchEvent(new StorageEvent('storage', { key }));
+  }
+
+  function openModalWithWeight(weight, startStep = 2, checkoutMode = false) {
     selectedCarouselWeight = weight;
     order.weight = weight; // Salva weight dal carousel
     
@@ -567,12 +634,16 @@
     if (heroFlowBox) heroFlowBox.classList.add('flow-open');
     if (inlineModalHost) inlineModalHost.classList.add('active');
     modalOverlay.classList.add('active');
-    goSub(2); // Vai sempre allo step 2 (taglie)
+    modalOverlay.classList.toggle('checkout-mode', checkoutMode);
+    document.body.classList.toggle('checkout-modal-open', checkoutMode);
+    goSub(startStep);
   }
 
   if (pickSizeBtn) {
     pickSizeBtn.addEventListener('click', () => {
-      if (selectedCarouselWeight) openModalWithWeight(selectedCarouselWeight);
+      // Se non c'è peso selezionato, usa "premium" come default
+      const weight = selectedCarouselWeight || 'premium';
+      openModalWithWeight(weight);
     });
   }
 
@@ -580,7 +651,17 @@
     // Hide pick-size button and remove carousel zoom
     if (pickSizeBtn) pickSizeBtn.classList.remove('visible');
     selectedCarouselWeight = null;
-    document.querySelectorAll('.carousel__cell').forEach(c => c.classList.remove('zoom-selected'));
+    order.size = '';
+    sizeBoxes.forEach(box => {
+      box.classList.remove('selected');
+      box.setAttribute('aria-pressed', 'false');
+    });
+    if (selectedSizeLabel) selectedSizeLabel.textContent = 'Choose your fit';
+    if (btnSizeNext) {
+      btnSizeNext.disabled = true;
+      btnSizeNext.classList.remove('visible');
+      btnSizeNext.setAttribute('aria-disabled', 'true');
+    }
   }
 
   // Close modal
@@ -591,6 +672,8 @@
 
     if (modalOverlay) {
       modalOverlay.classList.remove('active');
+      modalOverlay.classList.remove('checkout-mode');
+      document.body.classList.remove('checkout-modal-open');
 
       if (heroFlowBox) {
         heroFlowBox.classList.remove('flow-open');
@@ -611,6 +694,10 @@
   // Back button in header (goes back in steps)
   if (backBtn) {
     backBtn.addEventListener('click', () => {
+      if (modalOverlay && modalOverlay.classList.contains('checkout-mode')) {
+        closeModal();
+        return;
+      }
       if (currentSub > 0) {
         goSub(currentSub - 1);
       } else {
@@ -661,402 +748,96 @@
   // ─── Debug Log (Remove in production) ─────────────────────
   console.log('HUMANITEE — Mobile-first design loaded ✓');
 
-  // ─── 3D Carousel (BrandedUK-style) ───────────────────────
-  (function initCarousel() {
-    const carouselEl = document.getElementById('carousel3D');
-    if (!carouselEl) return;
+  // ─── Product Carousel ────────────────────────────────────
+  (function initProductCarousel() {
+    const carousel = document.getElementById('productCarousel');
+    if (!carousel) return;
 
-    const imageData = [
-      { src: 'ORIGIN.webp', label: 'LIGHTWEIGHT',  weight: 'lightweight' },
-      { src: 'ORIGIN.webp', label: 'PREMIUM',       weight: 'premium'     },
-      { src: 'ORIGIN.webp', label: 'HEAVY',         weight: 'heavy'       },
-      { src: 'ORIGIN.webp', label: 'ULTRA LIGHT',   weight: 'lightweight' },
-      { src: 'ORIGIN.webp', label: 'SIGNATURE',     weight: 'premium'     },
-      { src: 'ORIGIN.webp', label: 'ESSENTIAL',     weight: 'lightweight' },
-      { src: 'ORIGIN.webp', label: 'CLASSIC',       weight: 'premium'     },
-      { src: 'ORIGIN.webp', label: 'OVERSIZE',      weight: 'heavy'       },
-      { src: 'ORIGIN.webp', label: 'STRUCTURED',    weight: 'heavy'       },
-      { src: 'ORIGIN.webp', label: 'ORIGIN',        weight: 'premium'     }
-    ];
+    const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+    const previous = document.querySelector('.carousel-arrow-prev');
+    const next = document.querySelector('.carousel-arrow-next');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let activeIndex = 0;
+    let touchStartX = 0;
+    let autoRotate = null;
 
-    const total  = imageData.length;
-    const theta  = 360 / total; // 36°
-    const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
-    const isMobile = window.innerWidth < 768;
-    const radius = isMobile ? 234 : isTablet ? 233 : 468;
-
-    const cells = [];
-    let index     = 0;
-    let rotationY = 0;
-    let timer     = null;
-
-    // ── Build cells ─────────────────────────────────────────
-    imageData.forEach((item) => {
-      const cell = document.createElement('div');
-      cell.className  = 'carousel__cell';
-      cell.dataset.weight = item.weight;
-
-      const img = document.createElement('img');
-      img.src = item.src;
-      img.alt = item.label;
-      cell.appendChild(img);
-
-      const lbl = document.createElement('div');
-      lbl.className   = 'carousel__cell-label';
-      lbl.textContent = item.label;
-      cell.appendChild(lbl);
-
-      carouselEl.appendChild(cell);
-      cells.push(cell);
-    });
-
-    // ── Position cells around Y axis ─────────────────────────
-    function positionCells() {
-      cells.forEach((cell, i) => {
-        cell.style.transform = 'rotateY(' + (theta * i) + 'deg) translateZ(' + radius + 'px)';
+    function render() {
+      slides.forEach((slide, index) => {
+        const offset = (index - activeIndex + slides.length) % slides.length;
+        const normalized = offset > slides.length / 2 ? offset - slides.length : offset;
+        slide.dataset.position = String(normalized);
+        slide.setAttribute('aria-hidden', normalized < -1 || normalized > 1 ? 'true' : 'false');
+        slide.tabIndex = normalized === 0 ? 0 : -1;
+        slide.setAttribute('aria-current', normalized === 0 ? 'true' : 'false');
       });
+      selectedCarouselWeight = slides[activeIndex].dataset.weight || 'premium';
+      const imageIndex = document.getElementById('landingImageIndex');
+      if (imageIndex) imageIndex.textContent = String(activeIndex + 1).padStart(2, '0');
     }
 
-    // ── Toggle active class ──────────────────────────────────
-    function setActive() {
-      const prev = (index - 1 + total) % total;
-      const next = (index + 1) % total;
-      cells.forEach((cell, i) => {
-        cell.classList.toggle('active', i === index);
-        if (i === index) {
-          cell.style.opacity = '1';
-          cell.style.pointerEvents = 'auto';
-        } else if (i === prev || i === next) {
-          cell.style.opacity = '0.45';
-          cell.style.pointerEvents = 'auto';
-        } else {
-          cell.style.opacity = '0';
-          cell.style.pointerEvents = 'none';
-        }
-      });
+    function move(direction) {
+      activeIndex = (activeIndex + direction + slides.length) % slides.length;
+      render();
+      restartAutoRotate();
     }
 
-    // ── Rotate ───────────────────────────────────────────────
-    function rotate(dir) {
-      if (dir === 'next') {
-        index      = (index + 1) % total;
-        rotationY -= theta;
-      } else {
-        index      = (index - 1 + total) % total;
-        rotationY += theta;
-      }
-      updateTransform();
-    }
-
-    // ── Apply CSS transform + update states ──────────────────
-    function updateTransform() {
-      carouselEl.style.transform = 'rotateX(-5deg) rotateY(' + rotationY + 'deg)';
-      setActive();
-      startAuto();
-    }
-
-    // ── Auto-rotate every 4 s (resets on interaction) ────────
-    function startAuto() {
-      clearInterval(timer);
-      timer = setInterval(() => rotate('next'), 4000);
-    }
-
-    // ── Hover: evidenzia e ferma il carosello ─────────────────
-    cells.forEach((cell, i) => {
-      cell.addEventListener('mouseenter', () => {
-        if (cell.style.opacity === '0') return; // ignora celle invisibili
-        clearInterval(timer); // ferma auto-rotate
-        cells.forEach(c => c.classList.remove('hovered'));
-        cell.classList.add('hovered');
-      });
-      cell.addEventListener('mouseleave', () => {
-        cell.classList.remove('hovered');
-        startAuto(); // riprende auto-rotate
-      });
-    });
-
-    // ── Touch swipe (solo se è uno swipe, non un tap) ───────
-    let touchStartX = null;
-    let touchMoved = false;
-
-    carouselEl.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
-      touchMoved = false;
-    }, { passive: true });
-
-    carouselEl.addEventListener('touchmove', (e) => {
-      if (touchStartX === null) return;
-      if (Math.abs(e.touches[0].clientX - touchStartX) > 10) touchMoved = true;
-    }, { passive: true });
-
-    carouselEl.addEventListener('touchend', (e) => {
-      if (touchStartX === null) return;
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      if (touchMoved) {
-        if      (dx >  30) rotate('prev');
-        else if (dx < -30) rotate('next');
-      }
-      touchStartX = null;
-    }, { passive: true });
-
-    // ── Click/tap: singolo → porta al centro | doppio → espande + modale ──
-    let lastTapCell = -1;
-    let lastTapTime = 0;
-
-    cells.forEach((cell, i) => {
-      cell.addEventListener('click', () => {
-        if (touchMoved) return;
-        if (cell.style.opacity === '0') return;
-
-        const now = Date.now();
-        const next = (index + 1) % total;
-        const prev = (index - 1 + total) % total;
-
-        if (i !== index) {
-          // Cella non centrale: ruota verso di essa
-          if (i === next) rotate('next');
-          else if (i === prev) rotate('prev');
-          lastTapCell = -1;
-          lastTapTime = 0;
-          return;
-        }
-
-        // Cella centrale: doppio click/tap apre modale
-        if (lastTapCell === i && now - lastTapTime < 400) {
-          // Doppio tap: espandi + apri modale
-          cells.forEach(c => c.classList.remove('zoom-selected'));
-          cell.classList.add('zoom-selected');
-          clearInterval(timer);
-          setTimeout(() => {
-            selectedCarouselWeight = imageData[i].weight;
-            openModalWithWeight(selectedCarouselWeight);
-          }, 300);
-          lastTapCell = -1;
-          lastTapTime = 0;
-        } else {
-          // Primo tap sulla centrale: aspetta secondo
-          lastTapCell = i;
-          lastTapTime = now;
-        }
-      });
-    });
-
-    positionCells();
-    updateTransform(); // initial state (no animation — transition fires only on change)
-  })();
-
-  // ─── CSS Carousel swipe + tap select (mobile/tablet) ─────
-  (function initCSSCarouselSwipe() {
-    const htCarousel = document.querySelector('.ht3d-carousel');
-    if (!htCarousel) return;
-    if (!('ontouchstart' in window)) return;
-
-    const rotDir = htCarousel.querySelector('.ht3d-rotation-dir');
-    if (!rotDir) return;
-    const itemWrapper = rotDir.querySelector('.ht3d-item-wrapper');
-    if (!itemWrapper) return;
-
-    const items = Array.from(htCarousel.querySelectorAll('.ht3d-item'));
-    const N = items.length;
-
-    // Avvia rotazione automaticamente (frecce nascoste su mobile/tablet)
-    htCarousel.style.setProperty('--_dir', 'running');
-
-    let swipeStartX   = null;
-    let swipeMoved    = false;
-    let lastDir       = null;
-    let selectedItem  = null;
-    let selectBtn     = null;
-    let selecting     = false; // lock durante animazione selezione
-
-    // ── Direzione rotazione (swipe) ──
-    function setDirection(dir) {
-      if (dir === lastDir) return;
-      lastDir = dir;
-      htCarousel.classList.toggle('swipe-fwd', dir === 'fwd');
-      htCarousel.style.setProperty('--_dir', 'running');
-    }
-
-    // ── Crea/mostra bottone SELECT ──
-    function showSelectBtn() {
-      if (!selectBtn) {
-        selectBtn = document.createElement('button');
-        selectBtn.className = 'ht3d-select-btn';
-        selectBtn.textContent = 'SELECT';
-        htCarousel.parentElement.appendChild(selectBtn);
-        selectBtn.addEventListener('click', onSelectClick);
-      }
-      // Force reflow then show
-      void selectBtn.offsetWidth;
-      selectBtn.classList.add('visible');
-    }
-
-    function hideSelectBtn() {
-      if (selectBtn) selectBtn.classList.remove('visible');
-    }
-
-    // ── SELECT click → apri modale ──
-    function onSelectClick() {
-      if (!selectedItem) return;
-      const weight = selectedItem.dataset.weight || '';
-      deselect();
-      openModalWithWeight(weight);
-    }
-
-    // ── Congela animazioni CSS (salva angoli attuali come transform inline) ──
-    function freezeAnimations() {
-      // Rotation dir
-      const rotAnims = rotDir.getAnimations();
-      const rotStyle = getComputedStyle(rotDir).transform;
-      rotDir.style.animation = 'none';
-      rotDir.style.transform = rotStyle === 'none' ? '' : rotStyle;
-
-      // Item wrapper
-      const wrapAnims = itemWrapper.getAnimations();
-      const wrapStyle = getComputedStyle(itemWrapper).transform;
-      itemWrapper.style.animation = 'none';
-      itemWrapper.style.transform = wrapStyle === 'none' ? '' : wrapStyle;
-    }
-
-    // ── Ripristina animazioni CSS ──
-    function unfreezeAnimations() {
-      rotDir.style.animation = '';
-      rotDir.style.transform = '';
-      itemWrapper.style.animation = '';
-      itemWrapper.style.transform = '';
-    }
-
-    // ── Calcola angolo Y corrente da una matrice CSS ──
-    function getRotateY(el) {
-      const st = getComputedStyle(el).transform;
-      if (!st || st === 'none') return 0;
-      // matrix3d(...)
-      const m = st.match(/matrix3d\((.+)\)/);
-      if (!m) return 0;
-      const vals = m[1].split(',').map(Number);
-      // rotateY angle from matrix3d
-      return Math.atan2(vals[8], vals[0]) * (180 / Math.PI);
-    }
-
-    // ── Calcola l'angolo target per centrare un item ──
-    function getTargetAngle(item) {
-      const idx = parseInt(item.style.getPropertyValue('--_i'), 10);
-      const itemAngle = (360 / N) * idx; // angolo dell'item nel wrapper
-
-      // Angolo attuale del wrapper (ht3d-fwd gira Y positivo)
-      const wrapAngle = getRotateY(itemWrapper);
-      // L'item è visivamente a wrapAngle + itemAngle
-      // Per centrarlo a 0° (fronte), il wrapper deve ruotare a -itemAngle
-      // Ma rotation-dir ha un suo angolo che influenza.
-      // Approccio semplice: calcoliamo la rotazione corrente del rotation-dir
-      const rotAngle = getRotateY(rotDir);
-
-      // Posizione visiva = rotAngle + wrapAngle + itemAngle
-      // Per centrare a 0° fronte: rotAngle_target = -(wrapAngle + itemAngle)
-      // Delta su rotation-dir = rotAngle_target - rotAngle
-      const targetRot = -(wrapAngle + itemAngle);
-
-      return targetRot;
-    }
-
-    // ── Tap su item: pausa → 1s → centra → zoom → SELECT ──
-    function handleItemTap(item) {
-      if (selecting) return;
-
-      // Se stessa selezione, deseleziona
-      if (selectedItem === item) {
-        deselect();
+    function select(index) {
+      if (index === activeIndex) {
+        selectedCarouselWeight = slides[index].dataset.weight || 'premium';
+        if (pickSizeBtn) pickSizeBtn.classList.add('visible');
         return;
       }
-
-      selecting = true;
-
-      // Se c'era un altro item selezionato, pulisci
-      if (selectedItem) {
-        selectedItem.classList.remove('ht3d-selected');
-        hideSelectBtn();
-      }
-
-      // 1. Pausa immediata
-      htCarousel.style.setProperty('--_dir', 'paused');
-      htCarousel.style.setProperty('--_play', 'paused');
-
-      // 2. Dopo 300ms, congela e centra
-      setTimeout(() => {
-        freezeAnimations();
-
-        // Calcola target e applica transizione su rotation-dir
-        const targetAngle = getTargetAngle(item);
-
-        // Leggi il translateZ attuale dal computed transform
-        const cs = getComputedStyle(rotDir).transform;
-
-        // Applica transition e nuovo transform
-        rotDir.style.transition = 'transform 0.4s ease-out';
-        // Manteniamo translateZ(-30.6rem) e settiamo rotateY target
-        rotDir.style.transform = 'translateZ(calc(var(--_r) * -1)) rotateY(' + targetAngle + 'deg)';
-
-        // 3. Dopo transizione, zoom + SELECT
-        setTimeout(() => {
-          rotDir.style.transition = '';
-          selectedItem = item;
-          item.classList.add('ht3d-selected');
-          showSelectBtn();
-          selecting = false;
-        }, 450);
-
-      }, 300);
+      activeIndex = index;
+      render();
+      restartAutoRotate();
     }
 
-    // ── Deseleziona e riprendi rotazione ──
-    function deselect() {
-      if (selectedItem) {
-        selectedItem.classList.remove('ht3d-selected');
-        selectedItem = null;
-      }
-      hideSelectBtn();
-      unfreezeAnimations();
-      htCarousel.style.setProperty('--_dir', 'running');
-      htCarousel.style.setProperty('--_play', 'running');
-      selecting = false;
+    function stopAutoRotate() {
+      if (autoRotate) window.clearInterval(autoRotate);
+      autoRotate = null;
     }
 
-    // ── Touch events ──
-    htCarousel.addEventListener('touchstart', (e) => {
-      if (selecting) return;
-      swipeStartX = e.touches[0].clientX;
-      swipeMoved  = false;
-    }, { passive: true });
+    function restartAutoRotate() {
+      stopAutoRotate();
+      autoRotate = null;
+    }
 
-    htCarousel.addEventListener('touchmove', (e) => {
-      if (swipeStartX === null || selecting) return;
-      const dx = e.touches[0].clientX - swipeStartX;
-      if (Math.abs(dx) > 12) {
-        swipeMoved = true;
-        // Se c'è un item selezionato, deseleziona prima
-        if (selectedItem) deselect();
-        setDirection(dx > 0 ? 'fwd' : 'rev');
+    previous.addEventListener('click', () => move(-1));
+    next.addEventListener('click', () => move(1));
+    slides.forEach((slide, index) => slide.addEventListener('click', () => select(index)));
+
+    carousel.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        move(-1);
       }
-    }, { passive: true });
-
-    htCarousel.addEventListener('touchend', (e) => {
-      if (selecting) { swipeStartX = null; return; }
-
-      if (!swipeMoved && swipeStartX !== null) {
-        // Era un tap (nessun movimento)
-        const touch = e.changedTouches[0];
-        const tapTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-        const tappedItem = tapTarget ? tapTarget.closest('.ht3d-item') : null;
-        if (tappedItem && items.includes(tappedItem)) {
-          handleItemTap(tappedItem);
-        } else if (selectedItem) {
-          // Tap su spazio vuoto: deseleziona
-          deselect();
-        }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        move(1);
       }
+    });
 
-      swipeStartX = null;
+    carousel.addEventListener('touchstart', (event) => {
+      touchStartX = event.touches[0].clientX;
+      stopAutoRotate();
     }, { passive: true });
+    carousel.addEventListener('touchend', (event) => {
+      const distance = event.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(distance) > 45) move(distance > 0 ? -1 : 1);
+      else restartAutoRotate();
+    }, { passive: true });
+
+    carousel.addEventListener('mouseenter', stopAutoRotate);
+    carousel.addEventListener('mouseleave', restartAutoRotate);
+    carousel.addEventListener('focusin', stopAutoRotate);
+    carousel.addEventListener('focusout', restartAutoRotate);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopAutoRotate();
+      else restartAutoRotate();
+    });
+
+    render();
+    restartAutoRotate();
   })();
 
 })();
